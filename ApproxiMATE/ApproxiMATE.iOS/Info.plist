@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>ApproxiMATE</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.ApproxiMATE</string>
+	<string>com.ryanrauch.ApproxiMATE</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>CFBundleIconFiles</key>
@@ -50,5 +50,11 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>ApproxiMATE</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1.1</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Can ApproxiMATE use your location?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ApproxiMATE is using your location</string>
 </dict>
 </plist>

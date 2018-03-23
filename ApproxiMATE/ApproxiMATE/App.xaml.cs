@@ -9,11 +9,15 @@ namespace ApproxiMATE
 {
 	public partial class App : Application
 	{
+	    public static double ScreenHeight;
+	    public static double ScreenWidth;
+
 		public App ()
 		{
 			InitializeComponent();
 
-			MainPage = new ApproxiMATE.MainPage();
+			//MainPage = new ApproxiMATE.MainPage();
+            MainPage = new ApproxiMATE.MapPage();
 		}
 
 		protected override void OnStart ()
