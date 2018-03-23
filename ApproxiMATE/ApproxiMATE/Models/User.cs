@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ApproxiMATE.Models
 {
-    public class User// : IdentityUser
+    public class User
     {
         public int Id { get; set; }
         public string Gender { get; set; }

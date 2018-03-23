@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ApproxiMATE.Models;
+using ApproxiMATE.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,7 +48,8 @@ namespace ApproxiMATE
             customMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(30.400992, -97.723013), Distance.FromMiles(0.1)));
 
             Content = customMap;
-            System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+            RestService service = new RestService();
+            //List<Region> Regions = service.GetRegionsAsync().Result;
 
         }
 	}
