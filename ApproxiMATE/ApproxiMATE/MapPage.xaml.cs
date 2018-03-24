@@ -49,7 +49,7 @@ namespace ApproxiMATE
 
             Content = customMap;
             RestService service = new RestService();
-            //List<Region> Regions = service.GetRegionsAsync().Result;
+            List<Region> Regions = service.GetRegionsAsync().Result;
 
         }
 	}
