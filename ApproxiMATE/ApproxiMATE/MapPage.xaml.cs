@@ -48,6 +48,7 @@ namespace ApproxiMATE
             customMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(30.400992, -97.723013), Distance.FromMiles(0.1)));
 
             Content = customMap;
+
             //RestService service = new RestService();
             //List<Region> Regions = service.GetRegionsAsync().Result;
 
