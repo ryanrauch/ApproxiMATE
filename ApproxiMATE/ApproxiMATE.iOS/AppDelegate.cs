@@ -27,10 +27,13 @@ namespace ApproxiMATE.iOS
             Xamarin.FormsMaps.Init();
             App.ScreenWidth = UIScreen.MainScreen.Bounds.Width;
             App.ScreenHeight = UIScreen.MainScreen.Bounds.Height;
-
+            
+            //this would be used if replacing maps with GoogleMaps
+            //MapServices.ProvideAPIKey(Constants.GoogleMapsIOSAPIKey);
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
         }
+       
     }
 }

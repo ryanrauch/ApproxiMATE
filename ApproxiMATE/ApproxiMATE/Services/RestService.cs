@@ -14,6 +14,9 @@ namespace ApproxiMATE.Services
 
         public RestService()
         {
+            var authData = string.Format("{0}:{1}", Constants.Username, Constants.Password);
+            var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
+
             client = new HttpClient();
             client.MaxResponseContentBufferSize = 256000;
         }

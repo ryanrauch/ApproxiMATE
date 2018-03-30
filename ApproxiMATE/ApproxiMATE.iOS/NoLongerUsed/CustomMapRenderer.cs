@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +19,7 @@ namespace ApproxiMATE.iOS
     public class CustomMapRenderer : MapRenderer
     {
         MKPolygonRenderer polygonRenderer;
-
+        
         MKOverlayRenderer GetOverlayRenderer(MKMapView mapView, IMKOverlay overlayWrapper)
         {
             if (polygonRenderer == null && !Equals(overlayWrapper, null))
@@ -35,7 +35,7 @@ namespace ApproxiMATE.iOS
             }
             return polygonRenderer;
         }
-
+        
         protected override void OnElementChanged(ElementChangedEventArgs<View> e)
         {
             base.OnElementChanged(e);
@@ -73,3 +73,4 @@ namespace ApproxiMATE.iOS
         }
     }
 }
+*/

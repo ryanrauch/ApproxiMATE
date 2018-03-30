@@ -21,6 +21,10 @@ namespace ApproxiMATE.UWP
         {
             this.InitializeComponent();
 
+            //TODO: this does not seem to be working??
+            //https://www.bingmapsportal.com
+            Xamarin.FormsMaps.Init("AmTIxyUr5Xz_peUhdPSNr-Y_xRStWkb2LE0Bosx-TsVZbYLYbWOJJET_KvjRLwEU");
+
             LoadApplication(new ApproxiMATE.App());
         }
     }
