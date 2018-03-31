@@ -109,11 +109,13 @@ namespace ApproxiMATE
         {
             var position = await Utilities.GetCurrentGeolocationAsync();
             MyPosition = new Position(position.Latitude, position.Longitude);
-            PinCollection.Add(new Pin()
+            PinCollection.Add(new CustomPin()
             {
+                Id = "Ryan",
                 Position = MyPosition,
                 Label = "Ryan",
-                Type = PinType.Generic
+                Type = PinType.Generic,
+                Url = "http://www.ryanrauch.com/"
             });
         }
 

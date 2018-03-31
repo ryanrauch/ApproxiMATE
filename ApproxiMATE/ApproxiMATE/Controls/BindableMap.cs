@@ -42,7 +42,7 @@ namespace ApproxiMATE
             var bindable = (BindableMap)b;
             bindable.Pins.Clear();
 
-            var collection = (ObservableCollection<Pin>)n;
+            var collection = (ObservableCollection<CustomPin>)n;
             foreach (var item in collection)
                 bindable.Pins.Add(item);
             collection.CollectionChanged += (sender, e) =>
@@ -56,10 +56,10 @@ namespace ApproxiMATE
                         case NotifyCollectionChangedAction.Remove:
                             if (e.OldItems != null)
                                 foreach (var item in e.OldItems)
-                                    bindable.Pins.Remove((Pin)item);
+                                    bindable.Pins.Remove((CustomPin)item);
                             if (e.NewItems != null)
                                 foreach (var item in e.NewItems)
-                                    bindable.Pins.Add((Pin)item);
+                                    bindable.Pins.Add((CustomPin)item);
                             break;
                         case NotifyCollectionChangedAction.Reset:
                             bindable.Pins.Clear();
@@ -71,14 +71,14 @@ namespace ApproxiMATE
 
         public static readonly BindableProperty MapPinsProperty = BindableProperty.Create(
                  nameof(Pins),
-                 typeof(ObservableCollection<Pin>),
+                 typeof(ObservableCollection<CustomPin>),
                  typeof(BindableMap),
-                 new ObservableCollection<Pin>(),
+                 new ObservableCollection<CustomPin>(),
                  propertyChanged: MapPinsPropertyChanged);
 
-        public IList<Pin> MapPins
+        public IList<CustomPin> MapPins
         {
-            get { return (IList<Pin>)base.GetValue(MapPinsProperty); }
+            get { return (IList<CustomPin>)base.GetValue(MapPinsProperty); }
             set { base.SetValue(MapPinsProperty, value); }
         }
 

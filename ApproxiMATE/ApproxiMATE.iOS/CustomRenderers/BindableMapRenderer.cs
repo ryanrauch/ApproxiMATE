@@ -25,16 +25,18 @@ namespace ApproxiMATE.iOS
         //MKPolygonRenderer polygonRenderer;
         public bool zebra { get; set; } = false;
         public UIView customPinView { get; set; }
-        //public List<CustomPin> customPins { get; set; }
+        public IList<CustomPin> customPins { get; set; }
+        public IList<Pin> mapPins { get; set; }
 
-        /*MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
+        public MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
         {
             MKAnnotationView annotationView = null;
             if (annotation is MKUserLocation)
                 return null;
-            //var customPin = GetCustomPin(annotation as MKPointAnnotation);
-            //if (customPin == null)
-            //    throw new Exception("GetCustomPin() returned null.");
+            
+            var customPin = GetCustomPin(annotation as MKPointAnnotation);
+            if (customPin == null)
+                throw new Exception("GetCustomPin() returned null.");
             annotationView = mapView.DequeueReusableAnnotation(customPin.Id.ToString());
             if(annotationView == null)
             {
@@ -48,19 +50,21 @@ namespace ApproxiMATE.iOS
             }
             annotationView.CanShowCallout = true;
             return annotationView;
-        }*/
-        /*CustomPin GetCustomPin(MKPointAnnotation annotation)
+        }
+
+        
+        public CustomPin GetCustomPin(MKPointAnnotation annotation)
         {
             var position = new Position(annotation.Coordinate.Latitude, annotation.Coordinate.Longitude);
-            foreach (var pin in customPins)
+            foreach (var pin in mapPins)
             {
                 if (pin.Position == position)
                 {
-                    return pin;
+                    return pin as CustomPin;
                 }
             }
             return null;
-        }*/
+        }
 
         MKOverlayRenderer GetOverlayRenderer(MKMapView mapView, IMKOverlay overlayWrapper)
         {
@@ -107,6 +111,12 @@ namespace ApproxiMATE.iOS
                     nativeMap.RemoveOverlays(nativeMap.Overlays);
                     nativeMap.OverlayRenderer = null;
                     //polygonRenderer = null;
+
+                    //CustomPins section
+                    nativeMap.GetViewForAnnotation = null;
+                    nativeMap.CalloutAccessoryControlTapped -= OnCalloutAccessoryControlTapped;
+                    nativeMap.DidSelectAnnotationView -= OnDidSelectAnnotationView;
+                    nativeMap.DidDeselectAnnotationView -= OnDidDeselectAnnotationView;
                 }
             }
 
@@ -161,14 +171,14 @@ namespace ApproxiMATE.iOS
                         x += 0.01;
                 }
 
-                /*
+                
                 //Custom Pin Section
-                customPins = formsMap.MapPins.ToList();
+                mapPins = formsMap.Pins;
                 nativeMap.GetViewForAnnotation = GetViewForAnnotation;
                 nativeMap.CalloutAccessoryControlTapped += OnCalloutAccessoryControlTapped;
                 nativeMap.DidSelectAnnotationView += OnDidSelectAnnotationView;
                 nativeMap.DidDeselectAnnotationView += OnDidDeselectAnnotationView;
-                */
+                
             }
         }
         public void OnCalloutAccessoryControlTapped(object sender, MKMapViewAccessoryTappedEventArgs e)
