@@ -67,6 +67,7 @@
     <CodesignKey>iPhone Developer: ryan.rauch@outlook.com (5R3938P9XH)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>VS: com.ryanrauch.ApproxiMATE Development</CodesignProvision>
+    <MtouchDebug>false</MtouchDebug>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -92,6 +93,9 @@
     <CodesignProvision>VS: com.ryanrauch.ApproxiMATE Development</CodesignProvision>
     <CodesignKey>iPhone Developer: ryan.rauch@outlook.com (5R3938P9XH)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="NoLongerUsed\BindableMapDelegate.cs" />

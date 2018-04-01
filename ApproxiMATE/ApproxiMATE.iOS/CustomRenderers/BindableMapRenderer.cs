@@ -26,7 +26,7 @@ namespace ApproxiMATE.iOS
         public bool zebra { get; set; } = false;
         public UIView customPinView { get; set; }
         public IList<CustomPin> customPins { get; set; }
-        public IList<Pin> mapPins { get; set; }
+        //public IList<Pin> mapPins { get; set; }
 
         public MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
         {
@@ -56,7 +56,7 @@ namespace ApproxiMATE.iOS
         public CustomPin GetCustomPin(MKPointAnnotation annotation)
         {
             var position = new Position(annotation.Coordinate.Latitude, annotation.Coordinate.Longitude);
-            foreach (var pin in mapPins)
+            foreach (var pin in customPins)
             {
                 if (pin.Position == position)
                 {
@@ -82,6 +82,13 @@ namespace ApproxiMATE.iOS
                         };
                         zebra = !zebra;
                         return prenderer;
+                    case MKPolyline polyline:
+                        var plrenderer = new MKPolylineRenderer(polyline)
+                        {
+                            StrokeColor = UIColor.Red,
+                            Alpha = 0.4f
+                        };
+                        return plrenderer;
                     default:
                         throw new Exception(String.Format("GetOverlayRenderer() {0} Not Supported", overlay.GetType()));
                 }
@@ -173,7 +180,7 @@ namespace ApproxiMATE.iOS
 
                 
                 //Custom Pin Section
-                mapPins = formsMap.Pins;
+                customPins = formsMap.MapPins;
                 nativeMap.GetViewForAnnotation = GetViewForAnnotation;
                 nativeMap.CalloutAccessoryControlTapped += OnCalloutAccessoryControlTapped;
                 nativeMap.DidSelectAnnotationView += OnDidSelectAnnotationView;
