@@ -14,7 +14,7 @@ using Xamarin.Forms.Xaml;
 namespace ApproxiMATE
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class BindableMapPage : ContentPage
+	public partial class BindableMapPage : ContentPage, INotifyPropertyChanged
 	{
         public BindableMapPage()
         {
@@ -63,15 +63,15 @@ namespace ApproxiMATE
             set { _polygonCollection = value; OnPropertyChanged("PolygonCollection"); }
         }
 
-        private Position _myPosition = new Position(30.400992, -97.723013);
+        private Position _myPosition { get; set; } = new Position(30.400992, -97.723013);
         public Position MyPosition
         {
             get { return _myPosition; }
             set { _myPosition = value; OnPropertyChanged("MyPosition"); }
         }
 
-        private ObservableCollection<Pin> _pinCollection = new ObservableCollection<Pin>();
-        public ObservableCollection<Pin> PinCollection
+        private ObservableCollection<CustomPin> _pinCollection { get; set; } = new ObservableCollection<CustomPin>();
+        public ObservableCollection<CustomPin> PinCollection
         {
             get { return _pinCollection; }
             set { _pinCollection = value; OnPropertyChanged("PinCollection"); }
@@ -105,18 +105,23 @@ namespace ApproxiMATE
             //await DisplayAlert("MyPosition", x.ToString() + " " + y.ToString(), "OK");
         }*/
 
-        public async void UpdateLocation()
+
+        public async Task UpdateLocation()
         {
             var position = await Utilities.GetCurrentGeolocationAsync();
             MyPosition = new Position(position.Latitude, position.Longitude);
-            PinCollection.Add(new CustomPin()
+            PinCollection = new ObservableCollection<CustomPin>()
             {
+                new CustomPin()
+                {
+
                 Id = "Ryan",
                 Position = MyPosition,
                 Label = "Ryan",
                 Type = PinType.Generic,
                 Url = "http://www.ryanrauch.com/"
-            });
+                }
+            };
         }
 
         /*public async void UpdateRestService()
