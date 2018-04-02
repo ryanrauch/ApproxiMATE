@@ -21,17 +21,40 @@ namespace ApproxiMATE
             InitializeComponent();
             //BindingContext = new MapViewModel();  //MVVM probably needs a framework to access the view from model?
             BindingContext = this;
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
             try
             {
+                var position = await Utilities.GetCurrentGeolocationAsync();
+                MyPosition = new Position(position.Latitude, position.Longitude);
+                PinCollection.Add(new CustomPin()
+                {
+                    Id = "Ryan",
+                    Position = MyPosition,
+                    Label = "Ryan",
+                    Type = PinType.Generic,
+                    Url = "http://www.ryanrauch.com/"
+                });
+
+                PolygonCollection.Add(new Position(30.39983, -97.723719));
+                PolygonCollection.Add(new Position(30.40182, -97.722989));
+                PolygonCollection.Add(new Position(30.402172, -97.724245));
+                PolygonCollection.Add(new Position(30.403236, -97.72374));
+                PolygonCollection.Add(new Position(30.402606, -97.721659));
+                PolygonCollection.Add(new Position(30.399562, -97.723011));
+
                 //UpdateMapGrid();
-                UpdateLocation();
-                UpdatePolygons();
+                //UpdateLocation();
+                //UpdatePolygons();
                 //MapContent.PropertyChanged += MapContent_PropertyChanged; //this has not worked yet, but used to change grids when zoomed by user
                 //UpdateRestService();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                DisplayAlert(ex.Message, ex.StackTrace, "OK");
+                await DisplayAlert(ex.Message, ex.StackTrace, "OK");
             }
         }
 
@@ -70,7 +93,7 @@ namespace ApproxiMATE
             set { _myPosition = value; OnPropertyChanged("MyPosition"); }
         }
 
-        private ObservableCollection<Pin> _pinCollection = new ObservableCollection<Pin>();
+        private ObservableCollection<Pin> _pinCollection { get; set; } = new ObservableCollection<Pin>();
         public ObservableCollection<Pin> PinCollection
         {
             get { return _pinCollection; }

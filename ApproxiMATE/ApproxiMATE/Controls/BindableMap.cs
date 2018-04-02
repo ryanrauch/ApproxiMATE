@@ -74,9 +74,10 @@ namespace ApproxiMATE
                  typeof(ObservableCollection<CustomPin>),
                  typeof(BindableMap),
                  new ObservableCollection<CustomPin>(),
+                 BindingMode.TwoWay,
                  propertyChanged: MapPinsPropertyChanged);
 
-        public IList<CustomPin> MapPins
+        public IList<CustomPin> Pins
         {
             get { return (IList<CustomPin>)base.GetValue(MapPinsProperty); }
             set { base.SetValue(MapPinsProperty, value); }
@@ -119,6 +120,7 @@ namespace ApproxiMATE
                 typeof(ObservableCollection<Position>),
                 typeof(BindableMap),
                 new ObservableCollection<Position>(),
+                BindingMode.TwoWay,
                 propertyChanged: PolygonCoordinatesPropertyChanged);
 
         public IList<Position> PolygonCoordinates
@@ -132,6 +134,7 @@ namespace ApproxiMATE
                  typeof(Position),
                  typeof(BindableMap),
                  new Position(30.400992, -97.723013),
+                 BindingMode.TwoWay,
                  propertyChanged: MapPositionPropertyChanged);
 
         private static void MapPositionPropertyChanged(BindableObject b, object o, object n)

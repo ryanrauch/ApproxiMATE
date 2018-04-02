@@ -17,16 +17,18 @@ namespace ApproxiMATE
         public static bool IsUserLoggedIn { get; set; }
 	    public static double ScreenHeight { get; set; }
 	    public static double ScreenWidth { get; set; }
+        public static IApproxiMATEService approxiMATEService { get; set; }
 
 		public App ()
 		{
 			InitializeComponent();
+            approxiMATEService = new ApproxiMATEwebApiService();
 
-            MainPage = new NavigationPage(new StartupPage());
-            //if (!IsUserLoggedIn)
-            //    MainPage = new NavigationPage(new LoginPage());
-            //else
-            //    MainPage = new NavigationPage(new StartupPage());
+            //MainPage = new NavigationPage(new StartupPage());
+            if (!IsUserLoggedIn)
+                MainPage = new NavigationPage(new LoginPage());
+            else
+                MainPage = new NavigationPage(new StartupPage());
 
             //MainPage = new ApproxiMATE.BindableMapPage();
             //MainPage = new ApproxiMATE.MainPage();

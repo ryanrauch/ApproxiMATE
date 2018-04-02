@@ -158,10 +158,10 @@ namespace ApproxiMATE.iOS
                 nativeMap.AddOverlay(blockOverlay);
 
                 //add grid here?
-                //double x = nativeMap.CenterCoordinate.Latitude;
-                //double y = nativeMap.CenterCoordinate.Longitude;
-                double x = 30.39, 
-                       y = -97.72;
+                double x = nativeMap.CenterCoordinate.Latitude;
+                double y = nativeMap.CenterCoordinate.Longitude;
+                //double x = 30.39, 
+                //       y = -97.72;
                 //x = formsMap.MapPins[0].Position.Latitude;
                 //y = formsMap.MapPins[0].Position.Longitude;
                 for (int i = 0; i < 10; ++i)
@@ -180,7 +180,7 @@ namespace ApproxiMATE.iOS
 
                 
                 //Custom Pin Section
-                customPins = formsMap.MapPins;
+                customPins = formsMap.Pins;
                 nativeMap.GetViewForAnnotation = GetViewForAnnotation;
                 nativeMap.CalloutAccessoryControlTapped += OnCalloutAccessoryControlTapped;
                 nativeMap.DidSelectAnnotationView += OnDidSelectAnnotationView;

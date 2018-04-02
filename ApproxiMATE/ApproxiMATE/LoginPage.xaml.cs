@@ -23,15 +23,18 @@ namespace ApproxiMATE
 
         public async void OnLoginButtonClicked(object sender, EventArgs e)
         {
-            var user = new User
-            {
-                Username = usernameEntry.Text,
-                Password = passwordEntry.Text
-            };
+            //var user = new User
+            //{
+            //    Username = usernameEntry.Text,
+            //    Password = passwordEntry.Text
+            //};
 
-            var isValid = AreCredentialsCorrect(user);
-            if (isValid)
+            //var isValid = AreCredentialsCorrect(user);
+            //if (isValid)
+            var loginResult = await App.approxiMATEService.InitializeClientAsync(usernameEntry.Text, passwordEntry.Text, false);
+            if(loginResult.IsSuccessStatusCode)
             {
+                var states = await App.approxiMATEService.GetZoneStatesAsync();
                 App.IsUserLoggedIn = true;
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
@@ -43,9 +46,9 @@ namespace ApproxiMATE
             }
         }
 
-        public bool AreCredentialsCorrect(User user)
-        {
-            return user.Username == Constants.Username && user.Password == Constants.Password;
-        }
+        //public bool AreCredentialsCorrect(User user)
+        //{
+        //    return user.Username == Constants.Username && user.Password == Constants.Password;
+        //}
     }
 }
