@@ -31,12 +31,26 @@ namespace ApproxiMATE
 
             //var isValid = AreCredentialsCorrect(user);
             //if (isValid)
+
+            // TODO:
+            // look into this for storing the auth token?
+            //https://developer.xamarin.com/recipes/cross-platform/xamarin-forms/general/store-credentials/
+
             var loginResult = await App.approxiMATEService.InitializeClientAsync(usernameEntry.Text, passwordEntry.Text, false);
             if(loginResult.IsSuccessStatusCode)
             {
-                var states = await App.approxiMATEService.GetZoneStatesAsync();
+                //var states = await App.approxiMATEService.GetZoneStatesAsync();
                 App.IsUserLoggedIn = true;
-                Navigation.InsertPageBefore(new MainPage(), this);
+                var options = await App.approxiMATEService.GetApplicationOptionsAsync();
+                App.AppOptions = options.OrderByDescending(x => x.OptionsDate).FirstOrDefault();
+                if (App.AppUser.termsAndConditionsDate < App.AppOptions.OptionsDate)
+                {
+                    Navigation.InsertPageBefore(new TermsAndConditionsPage(), this);
+                }
+                else
+                {
+                    Navigation.InsertPageBefore(new MainPage(), this);
+                }
                 await Navigation.PopAsync();
             }
             else

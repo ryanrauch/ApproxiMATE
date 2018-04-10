@@ -17,4 +17,42 @@ namespace ApproxiMATE.Models
         public String Description { get; set; }
         public virtual ZoneState State { get; set; }
     }
+
+    public class ApplicationOption
+    {
+        public int OptionsId { get; set; }
+        public DateTime OptionsDate { get; set; }
+        public string EndUserLicenseAgreementSource { get; set; }
+        public string TermsConditionsSource { get; set; }
+        public string PrivacyPolicySource { get; set; }
+    }
+
+    public class ApplicationUser
+    {
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public DateTime dateOfBirth { get; set; }
+        public int gender { get; set; }
+        public int accountType { get; set; }
+        public DateTime termsAndConditionsDate { get; set; }
+        public double currentLatitude { get; set; }
+        public double currentLongitude { get; set; }
+        public DateTime currentTimeStamp { get; set; }
+        public Guid id { get; set; }
+        public string userName { get; set; }
+        public string normalizedUserName { get; set; }
+        public string email { get; set; }
+        public string normalizedEmail { get; set; }
+        public bool emailConfirmed { get; set; }
+        public string passwordHash { get; set; }
+        public string securityStamp { get; set; }
+        public string concurrencyStamp { get; set; }
+        public object phoneNumber { get; set; }
+        public bool phoneNumberConfirmed { get; set; }
+        public bool twoFactorEnabled { get; set; }
+        public object lockoutEnd { get; set; }
+        public bool lockoutEnabled { get; set; }
+        public int accessFailedCount { get; set; }
+    }
+
 }

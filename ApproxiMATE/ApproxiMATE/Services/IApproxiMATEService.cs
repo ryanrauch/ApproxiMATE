@@ -7,7 +7,15 @@ namespace ApproxiMATE.Services
 {
     public interface IApproxiMATEService
     {
-        Task<List<ZoneState>> GetZoneStatesAsync();
+        //ApplicationUser AppUser;
+
         Task<HttpResponseMessage> InitializeClientAsync(string userName, string password, bool persistent);
+        Task<ApplicationUser> InitializeAppUserAsync(string userName);
+
+        Task PutApplicationUserAsync(ApplicationUser data);
+
+
+        Task<List<ZoneState>> GetZoneStatesAsync();
+        Task<List<ApplicationOption>> GetApplicationOptionsAsync();
     }
 }

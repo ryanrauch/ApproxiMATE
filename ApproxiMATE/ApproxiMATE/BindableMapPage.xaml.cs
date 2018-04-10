@@ -72,7 +72,7 @@ namespace ApproxiMATE
             }
         }
         */
-        private Distance _myZoomLevel = new Distance();
+        private Distance _myZoomLevel { get; set; } = new Distance();
         public Distance MyZoomLevel
         {
             get { return _myZoomLevel; }
@@ -86,7 +86,7 @@ namespace ApproxiMATE
             set { _polygonCollection = value; OnPropertyChanged("PolygonCollection"); }
         }
 
-        private Position _myPosition = new Position(30.400992, -97.723013);
+        private Position _myPosition { get; set; } = new Position(30.400992, -97.723013);
         public Position MyPosition
         {
             get { return _myPosition; }

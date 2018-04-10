@@ -57,14 +57,14 @@ namespace ApproxiMATE
             set { _polygonCollection = value; OnPropertyChanged("PolygonCollection"); }
         }
 
-        private Position _myPosition = new Position(30.400992, -97.723013);
+        private Position _myPosition { get; set; } = new Position(30.400992, -97.723013);
         public Position MyPosition
         {
             get { return _myPosition; }
             set { _myPosition = value; OnPropertyChanged("MyPosition"); }
         }
 
-        private ObservableCollection<Pin> _pinCollection = new ObservableCollection<Pin>();
+        private ObservableCollection<Pin> _pinCollection { get; set; } = new ObservableCollection<Pin>();
         public ObservableCollection<Pin> PinCollection
         {
             get { return _pinCollection; }

@@ -1,4 +1,5 @@
-﻿using ApproxiMATE.Services;
+﻿using ApproxiMATE.Models;
+using ApproxiMATE.Services;
 using Plugin.Geolocator;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
@@ -12,9 +13,11 @@ using Xamarin.Forms;
 
 namespace ApproxiMATE
 {
-	public partial class App : Application
-	{
+    public partial class App : Application
+    {
         public static bool IsUserLoggedIn { get; set; }
+        public static ApplicationUser AppUser { get; set; }
+        public static ApplicationOption AppOptions { get; set; }
 	    public static double ScreenHeight { get; set; }
 	    public static double ScreenWidth { get; set; }
         public static IApproxiMATEService approxiMATEService { get; set; }
