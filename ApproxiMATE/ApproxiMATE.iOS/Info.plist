@@ -56,7 +56,9 @@
 	<string>Can ApproxiMATE use your location?</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>ApproxiMATE is using your location</string>
-  <key>NSCalendarsUsageDescription</key>
-  <string>Calender is needed for permission-check routine</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Calender is needed for permission-check routine</string>
+	<key>XSAppIconAssets</key>
+	<string>Resources/Assets.xcassets/AppIcons.appiconset</string>
 </dict>
 </plist>

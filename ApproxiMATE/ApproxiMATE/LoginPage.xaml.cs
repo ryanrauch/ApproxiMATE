@@ -17,7 +17,7 @@ namespace ApproxiMATE
 			InitializeComponent();
 		}
 
-        public async Task LoginProcess(string un, string pw)
+        public async Task<Boolean> LoginProcess(string un, string pw)
         {
             var loginResult = await App.approxiMATEService.InitializeClientAsync(un, pw, false);
             if (loginResult.IsSuccessStatusCode)
@@ -27,17 +27,7 @@ namespace ApproxiMATE
                     App.AccountService.SaveCredentials(un, pw);
                 }
                 App.IsUserLoggedIn = true;
-                var options = await App.approxiMATEService.GetApplicationOptionsAsync();
-                App.AppOptions = options.OrderByDescending(x => x.OptionsDate).FirstOrDefault();
-                if (App.AppUser.termsAndConditionsDate < App.AppOptions.OptionsDate)
-                {
-                    Navigation.InsertPageBefore(new TermsAndConditionsPage(), this);
-                }
-                else
-                {
-                    Navigation.InsertPageBefore(new MainPage(), this);
-                }
-                await Navigation.PopAsync();
+                return true;
             }
             else
             {
@@ -45,6 +35,7 @@ namespace ApproxiMATE
                 passwordEntry.Text = string.Empty;
                 App.AccountService.DeleteCredentials();
             }
+            return false;
         }
 
         protected override async void OnAppearing()
@@ -55,7 +46,12 @@ namespace ApproxiMATE
                 pw = App.AccountService.Password;
             if(un != null && pw != null)
             {
-                await LoginProcess(un, pw);
+                var result = await LoginProcess(un, pw);
+                if(result)
+                {
+                    Navigation.InsertPageBefore(new MainPage(), this);
+                    await Navigation.PopAsync();
+                }
             }
             base.OnAppearing();
         }
@@ -69,7 +65,21 @@ namespace ApproxiMATE
         {
             string un = usernameEntry.Text,
                    pw = passwordEntry.Text;
-            await LoginProcess(un, pw);
+            var result = await LoginProcess(un, pw);
+            if (result)
+            {
+                var options = await App.approxiMATEService.GetApplicationOptionsAsync();
+                App.AppOptions = options.OrderByDescending(x => x.OptionsDate).FirstOrDefault();
+                if (App.AppUser.termsAndConditionsDate < App.AppOptions.OptionsDate)
+                {
+                    Navigation.InsertPageBefore(new TermsAndConditionsPage(), this);
+                }
+                else
+                {
+                    Navigation.InsertPageBefore(new MainPage(), this);
+                }
+                await Navigation.PopAsync();
+            }
         }
     }
 }
