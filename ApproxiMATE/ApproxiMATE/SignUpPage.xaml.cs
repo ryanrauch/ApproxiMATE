@@ -20,13 +20,15 @@ namespace ApproxiMATE
         {
             var user = new User()
             {
-                Username = usernameEntry.Text,
-                Password = passwordEntry.Text,
-                Email = emailEntry.Text
+                Password = EntryPassword.Text,
+                Email = EntryEmail.Text,
+                PhoneNumber = EntryPhone.Text,
+                DateofBirth = DatePickerDOB.Date,
+                FirstName = EntryFirstName.Text,
+                LastName = EntryLastName.Text
             };
 
             // Sign up logic goes here
-
             var signUpSucceeded = AreDetailsValid(user);
             if (signUpSucceeded)
             {
@@ -46,7 +48,12 @@ namespace ApproxiMATE
 
         public bool AreDetailsValid(User user)
         {
-            return (!string.IsNullOrWhiteSpace(user.Username) && !string.IsNullOrWhiteSpace(user.Password) && !string.IsNullOrWhiteSpace(user.Email) && user.Email.Contains("@"));
+            return (!string.IsNullOrWhiteSpace(user.FirstName) 
+                    && !string.IsNullOrWhiteSpace(user.Password) 
+                    && !string.IsNullOrWhiteSpace(user.Email) && user.Email.Contains("@")
+                    && !string.IsNullOrWhiteSpace(user.LastName)
+                    && !string.IsNullOrWhiteSpace(user.PhoneNumber)
+                    && user.DateofBirth < DateTime.Now.Date);
         }
     }
 }

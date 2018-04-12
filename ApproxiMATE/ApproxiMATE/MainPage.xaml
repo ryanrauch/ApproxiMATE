@@ -10,9 +10,17 @@
         <StackLayout Orientation="Vertical" 
                      VerticalOptions="CenterAndExpand">
             <!--<Image Source="{local:ImageResource ApproxiMATE.Images.approx1024.png}" />-->
-            <Label Text="Main ApproxiMATE content here..." 
+            <Label Text="Main approx content here..." 
                    VerticalOptions="Center" 
                    HorizontalOptions="Center" />
+            <Label Text="Current Latitude"/>
+            <Label x:Name="LabelCurrentLatitude"/>
+            <Label Text="Current Longitude"/>
+            <Label x:Name="LabelCurrentLongitude"/>
+            <Label Text="Current Box"/>
+            <Label x:Name="LabelCurrentBox"/>
+            <Button x:Name="ButtonRefresh" Clicked="ButtonRefresh_OnClicked" Text="Refresh"/>
+            <Button x:Name="ButtonUpdateDB" Clicked="ButtonUpdateDB_OnClicked" Text="Update DB"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

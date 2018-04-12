@@ -19,7 +19,7 @@
                      IsVisible="False">
                 <Label Text="Username" />
                 <Entry x:Name="usernameEntry" 
-                   Placeholder="username" />
+                   Placeholder="e-mail address" />
                 <Label Text="Password" />
                 <Entry x:Name="passwordEntry" 
                    IsPassword="true"

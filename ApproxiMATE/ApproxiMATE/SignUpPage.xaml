@@ -4,12 +4,26 @@
              x:Class="ApproxiMATE.SignUpPage">
     <ContentPage.Content>
         <StackLayout VerticalOptions="StartAndExpand">
-            <Label Text="Username" />
+            <Label Text="First Name" />
+            <Entry x:Name="EntryFirstName" Placeholder="first" />
+            <Label Text="Last Name"/>
+            <Entry x:Name="EntryLastName" Placeholder="last" />
+            <Label Text="Email Address" />
+            <Entry x:Name="EntryEmail" Placeholder="address@domain.com" Keyboard="Email" />
+            <Label Text="Password" />
+            <Entry x:Name="EntryPassword" Placeholder="password" IsPassword="True" />
+            <Label Text="Confirm Password" />
+            <Entry x:Name="EntryConfirmPassword" Placeholder="password" IsPassword="True" />
+            <Label Text="Date of Birth" />
+            <DatePicker x:Name="DatePickerDOB"/>
+            <Label Text="Phone Number" />
+            <Entry x:Name="EntryPhone" Keyboard="Telephone" />
+            <!--<Label Text="Username" />
             <Entry x:Name="usernameEntry" Placeholder="username" />
             <Label Text="Password" />
             <Entry x:Name="passwordEntry" IsPassword="true" />
             <Label Text="Email address" />
-            <Entry x:Name="emailEntry" />
+            <Entry x:Name="emailEntry" />-->
             <Button Text="Sign Up" Clicked="OnSignUpButtonClicked" />
             <Label x:Name="messageLabel" />
         </StackLayout>
