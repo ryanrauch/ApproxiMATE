@@ -16,30 +16,16 @@ namespace ApproxiMATE
 		{
 			InitializeComponent();
 		}
-        public async void OnSignUpButtonClicked(object sender, EventArgs e)
+
+        public async Task LoginProcess(string un, string pw)
         {
-            await Navigation.PushAsync(new SignUpPage());
-        }
-
-        public async void OnLoginButtonClicked(object sender, EventArgs e)
-        {
-            //var user = new User
-            //{
-            //    Username = usernameEntry.Text,
-            //    Password = passwordEntry.Text
-            //};
-
-            //var isValid = AreCredentialsCorrect(user);
-            //if (isValid)
-
-            // TODO:
-            // look into this for storing the auth token?
-            //https://developer.xamarin.com/recipes/cross-platform/xamarin-forms/general/store-credentials/
-
-            var loginResult = await App.approxiMATEService.InitializeClientAsync(usernameEntry.Text, passwordEntry.Text, false);
-            if(loginResult.IsSuccessStatusCode)
+            var loginResult = await App.approxiMATEService.InitializeClientAsync(un, pw, false);
+            if (loginResult.IsSuccessStatusCode)
             {
-                //var states = await App.approxiMATEService.GetZoneStatesAsync();
+                if (SwitchSavePW.IsToggled)
+                {
+                    App.AccountService.SaveCredentials(un, pw);
+                }
                 App.IsUserLoggedIn = true;
                 var options = await App.approxiMATEService.GetApplicationOptionsAsync();
                 App.AppOptions = options.OrderByDescending(x => x.OptionsDate).FirstOrDefault();
@@ -57,12 +43,33 @@ namespace ApproxiMATE
             {
                 messageLabel.Text = "Login failed";
                 passwordEntry.Text = string.Empty;
+                App.AccountService.DeleteCredentials();
             }
         }
 
-        //public bool AreCredentialsCorrect(User user)
-        //{
-        //    return user.Username == Constants.Username && user.Password == Constants.Password;
-        //}
+        protected override async void OnAppearing()
+        {
+            string un = App.AccountService.UserName;
+            string pw = null;
+            if (un != null)
+                pw = App.AccountService.Password;
+            if(un != null && pw != null)
+            {
+                await LoginProcess(un, pw);
+            }
+            base.OnAppearing();
+        }
+
+        public async void OnSignUpButtonClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SignUpPage());
+        }
+
+        public async void OnLoginButtonClicked(object sender, EventArgs e)
+        {
+            string un = usernameEntry.Text,
+                   pw = passwordEntry.Text;
+            await LoginProcess(un, pw);
+        }
     }
 }

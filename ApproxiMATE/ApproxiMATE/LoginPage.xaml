@@ -9,9 +9,20 @@
     <ContentPage.Content>
         <StackLayout VerticalOptions="StartAndExpand">
             <Label Text="Username" />
-            <Entry x:Name="usernameEntry" Placeholder="username" />
+            <Entry x:Name="usernameEntry" 
+                   Placeholder="username" />
             <Label Text="Password" />
-            <Entry x:Name="passwordEntry" IsPassword="true" />
+            <Entry x:Name="passwordEntry" 
+                   IsPassword="true"
+                   Placeholder="password"/>
+            <StackLayout Orientation="Horizontal" 
+                         HorizontalOptions="FillAndExpand">
+                <Label Text="Save Password?" />
+                <Switch x:Name="SwitchSavePW" 
+                        HorizontalOptions="FillAndExpand" 
+                        VerticalOptions="End" 
+                        IsToggled="True" />
+            </StackLayout>
             <Button Text="Login" Clicked="OnLoginButtonClicked" />
             <Label x:Name="messageLabel" />
         </StackLayout>

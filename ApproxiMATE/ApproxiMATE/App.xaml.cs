@@ -21,11 +21,13 @@ namespace ApproxiMATE
 	    public static double ScreenHeight { get; set; }
 	    public static double ScreenWidth { get; set; }
         public static IApproxiMATEService approxiMATEService { get; set; }
+        public static AccountServiceXamarinAuth AccountService { get; set; }
 
 		public App ()
 		{
 			InitializeComponent();
             approxiMATEService = new ApproxiMATEwebApiService();
+            AccountService = new AccountServiceXamarinAuth();
 
             //MainPage = new NavigationPage(new StartupPage());
             if (!IsUserLoggedIn)
