@@ -27,6 +27,7 @@ namespace ApproxiMATE
                     App.AccountService.SaveCredentials(un, pw);
                 }
                 App.IsUserLoggedIn = true;
+                //System.Threading.Thread.Sleep(3000);
                 return true;
             }
             else
@@ -44,14 +45,19 @@ namespace ApproxiMATE
             string pw = null;
             if (un != null)
                 pw = App.AccountService.Password;
-            if(un != null && pw != null)
+            if (un != null && pw != null)
             {
                 var result = await LoginProcess(un, pw);
-                if(result)
+                if (result)
                 {
                     Navigation.InsertPageBefore(new MainPage(), this);
                     await Navigation.PopAsync();
                 }
+            }
+            else
+            {
+                StackLayoutLogin.IsVisible = true;
+                LabelLoadingCredentials.IsVisible = false;
             }
             base.OnAppearing();
         }

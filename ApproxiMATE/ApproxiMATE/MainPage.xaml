@@ -7,8 +7,12 @@
         <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Label Text="Main ApproxiMATE content here..." 
-               VerticalOptions="Center" 
-               HorizontalOptions="Center" />
+        <StackLayout Orientation="Vertical" 
+                     VerticalOptions="CenterAndExpand">
+            <!--<Image Source="{local:ImageResource ApproxiMATE.Images.approx1024.png}" />-->
+            <Label Text="Main ApproxiMATE content here..." 
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Center" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

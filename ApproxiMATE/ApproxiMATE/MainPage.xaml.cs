@@ -17,6 +17,7 @@ namespace ApproxiMATE
         public async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
             App.IsUserLoggedIn = false;
+            App.AccountService.DeleteCredentials();
             Navigation.InsertPageBefore(new LoginPage(), this);
             await Navigation.PopAsync();
         }
