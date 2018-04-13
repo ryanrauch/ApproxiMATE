@@ -34,10 +34,10 @@ namespace ApproxiMATE.Models
         public DateTime dateOfBirth { get; set; }
         public int gender { get; set; }
         public int accountType { get; set; }
-        public DateTime termsAndConditionsDate { get; set; }
-        public double currentLatitude { get; set; }
-        public double currentLongitude { get; set; }
-        public DateTime currentTimeStamp { get; set; }
+        public DateTime? termsAndConditionsDate { get; set; }
+        public double? currentLatitude { get; set; }
+        public double? currentLongitude { get; set; }
+        public DateTime? currentTimeStamp { get; set; }
         public Guid id { get; set; }
         public string userName { get; set; }
         public string normalizedUserName { get; set; }
@@ -54,5 +54,31 @@ namespace ApproxiMATE.Models
         public bool lockoutEnabled { get; set; }
         public int accessFailedCount { get; set; }
     }
+    public class CurrentLocation
+    {
+        public string UserId { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
 
+    public class FriendRequest
+    {
+        public Guid InitiatorId { get; set; }
+        public Guid TargetId { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public FriendRequestType? Type { get; set; }
+    }
+
+    public class UserPhoneResult
+    {
+        public Guid UserId { get; set; }
+        public string UserName { get; set; }
+        public string PhoneNumber { get; set; }
+    }
+
+    public class UserPhoneNumbers
+    {
+        public Guid UserId { get; set; }
+        public List<string> Numbers { get; set; }
+    }
 }

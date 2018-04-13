@@ -40,6 +40,8 @@
 	<string>ApproxiMATE is using your location</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Calender is needed for permission-check routine</string>
+  <key>NSContactsUsageDescription</key>
+  <string>ApproxiMATE needs to access your contacts to find friends</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcons.appiconset</string>
 </dict>

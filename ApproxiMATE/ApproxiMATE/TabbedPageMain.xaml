@@ -1,21 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ApproxiMATE"
-             x:Class="ApproxiMATE.MainPage">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Debug" Clicked="OnDebugButtonClicked" />
-        <ToolbarItem Text="Contacts" Clicked="OnContactsButtonClicked"/>
-        <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" />
-    </ContentPage.ToolbarItems>
-    <ContentPage.Content>
-        <Label Text="Main approx content here..." 
-                   VerticalOptions="Center" 
-                   HorizontalOptions="Center" />
+             x:Class="ApproxiMATE.TabbedPageMain">
+  <!--Pages can be added as references or inline-->
+    <ContentPage Title="Tab 1">
+
+    </ContentPage>
+    <ContentPage Title="Tab 2" />
+    <ContentPage Title="Debug">
         <!--<StackLayout Orientation="Vertical" 
                      VerticalOptions="CenterAndExpand">
             --><!--<Image Source="{local:ImageResource ApproxiMATE.Images.approx1024.png}" />--><!--
-            <Label Text="Main approx content here..." 
+            <Label Text="Debug Information" 
                    VerticalOptions="Center" 
                    HorizontalOptions="Center" />
             <Label Text="Current Latitude"/>
@@ -27,5 +24,5 @@
             <Button x:Name="ButtonRefresh" Clicked="ButtonRefresh_OnClicked" Text="Refresh"/>
             <Button x:Name="ButtonUpdateDB" Clicked="ButtonUpdateDB_OnClicked" Text="Update DB"/>
         </StackLayout>-->
-    </ContentPage.Content>
-</ContentPage>
+    </ContentPage>
+</TabbedPage>

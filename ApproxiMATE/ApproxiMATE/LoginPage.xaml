@@ -7,34 +7,39 @@
         <ToolbarItem Text="Sign Up" Clicked="OnSignUpButtonClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical"
+        <ScrollView>
+            <StackLayout Orientation="Vertical"
                      VerticalOptions="StartAndExpand">
-            <Image Source="{local:ImageResource ApproxiMATE.Images.approx1024.png}" />
-            <Label x:Name="LabelLoadingCredentials"
+                <Image Source="{local:ImageResource ApproxiMATE.Images.approx1024.png}" />
+                <Label x:Name="LabelLoadingCredentials"
                    Text="Checking User Credentials"
                    HorizontalTextAlignment="Center"
                    IsVisible="True"/>
-            <StackLayout x:Name="StackLayoutLogin" 
+                <StackLayout x:Name="StackLayoutLogin" 
                      VerticalOptions="StartAndExpand"
                      IsVisible="False">
-                <Label Text="Username" />
-                <Entry x:Name="usernameEntry" 
+                    <Label Text="Username" />
+                    <Entry x:Name="usernameEntry" 
                    Placeholder="e-mail address" />
-                <Label Text="Password" />
-                <Entry x:Name="passwordEntry" 
+                    <Label Text="Password" />
+                    <Entry x:Name="passwordEntry" 
                    IsPassword="true"
                    Placeholder="password"/>
-                <StackLayout Orientation="Horizontal" 
-                         HorizontalOptions="FillAndExpand">
-                    <Label Text="Save Password?" />
-                    <Switch x:Name="SwitchSavePW" 
-                        HorizontalOptions="FillAndExpand" 
-                        VerticalOptions="End" 
-                        IsToggled="True" />
+                    <StackLayout Orientation="Horizontal" 
+                                 HorizontalOptions="FillAndExpand">
+                        <Label Text="Remember me" />
+                        <Switch x:Name="SwitchSavePW" 
+                                HorizontalOptions="Fill" 
+                                VerticalOptions="Center" 
+                                IsToggled="True" />
+                        <Button Text="Login" 
+                                HorizontalOptions="End"
+                                Clicked="OnLoginButtonClicked" />
+
+                    </StackLayout>
+                    <Label x:Name="messageLabel" />
                 </StackLayout>
-                <Button Text="Login" Clicked="OnLoginButtonClicked" />
-                <Label x:Name="messageLabel" />
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

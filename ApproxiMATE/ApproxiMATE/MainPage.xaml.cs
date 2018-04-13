@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ApproxiMATE.Models;
+using Plugin.Geolocator.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,26 +23,15 @@ namespace ApproxiMATE
             Navigation.InsertPageBefore(new LoginPage(), this);
             await Navigation.PopAsync();
         }
-        public async Task UpdateLocationBox()
+
+        public async void OnDebugButtonClicked(object sender, EventArgs e)
         {
-            var current = await Utilities.GetCurrentGeolocationAsync();
-            LabelCurrentLatitude.Text = current.Latitude.ToString();
-            LabelCurrentLongitude.Text = current.Longitude.ToString();
-            LabelCurrentBox.Text = String.Format("{0}x{1} to {2}x{3}",
-                                                 (Math.Floor(current.Latitude * 100) / 100).ToString("F"),
-                                                 (Math.Floor(current.Longitude * 100) / 100).ToString("F"),
-                                                 (Math.Floor(current.Latitude * 100) / 100 + 0.01).ToString("F"),
-                                                 (Math.Floor(current.Longitude * 100) / 100 + 0.01).ToString("F"));
+            await Navigation.PushAsync(new DebugPage());
         }
 
-        public async void ButtonRefresh_OnClicked(object sender, EventArgs e)
+        public async void OnContactsButtonClicked(object sender, EventArgs e)
         {
-            await UpdateLocationBox();
-        }
-
-        public async void ButtonUpdateDB_OnClicked(object sender, EventArgs e)
-        {
-
+            await Navigation.PushAsync(new ContactsPage());
         }
     }
 }

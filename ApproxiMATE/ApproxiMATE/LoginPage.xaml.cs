@@ -50,6 +50,7 @@ namespace ApproxiMATE
                 var result = await LoginProcess(un, pw);
                 if (result)
                 {
+                    //Navigation.InsertPageBefore(new TabbedPageMain(), this);
                     Navigation.InsertPageBefore(new MainPage(), this);
                     await Navigation.PopAsync();
                 }
@@ -76,7 +77,8 @@ namespace ApproxiMATE
             {
                 var options = await App.approxiMATEService.GetApplicationOptionsAsync();
                 App.AppOptions = options.OrderByDescending(x => x.OptionsDate).FirstOrDefault();
-                if (App.AppUser.termsAndConditionsDate < App.AppOptions.OptionsDate)
+                if (App.AppUser.termsAndConditionsDate == null 
+                    || App.AppUser.termsAndConditionsDate < App.AppOptions.OptionsDate)
                 {
                     Navigation.InsertPageBefore(new TermsAndConditionsPage(), this);
                 }

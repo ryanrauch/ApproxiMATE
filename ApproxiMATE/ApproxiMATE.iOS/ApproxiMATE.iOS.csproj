@@ -104,7 +104,9 @@
     <Compile Include="CustomRenderers\CustomMKAnnotationView.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <None Include="Entitlements.plist" />
+    <None Include="Entitlements.plist">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Info.plist">
       <SubType>Designer</SubType>
     </None>
@@ -141,6 +143,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>2.5.1.444934</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms.Contacts">
+      <Version>1.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
       <Version>2.5.1.444934</Version>

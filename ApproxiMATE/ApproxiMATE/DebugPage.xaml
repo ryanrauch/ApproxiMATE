@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ApproxiMATE.DebugPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Orientation="Vertical" 
+                     VerticalOptions="CenterAndExpand">
+                <Label Text="Location Permissions" />
+                <Label x:Name="LabelLocationPermission"/>
+                <Button x:Name="ButtonRefreshLocationPermission" Clicked="ButtonRefreshLocationPermission_OnClicked" Text="Refresh Permissions"/>
+                <Label Text="Current Latitude"/>
+                <Label x:Name="LabelCurrentLatitude"/>
+                <Label Text="Current Longitude"/>
+                <Label x:Name="LabelCurrentLongitude"/>
+                <Label Text="Current Box"/>
+                <Label x:Name="LabelCurrentBox"/>
+                <Button x:Name="ButtonRefreshCoordinates" Clicked="ButtonRefreshCoordinates_OnClicked" Text="Refresh Coordinates"/>
+                <Button x:Name="ButtonUpdateDB" Clicked="ButtonUpdateDB_OnClicked" Text="Update DB"/>
+                <Label Text="Contacts Permissions"/>
+                <Label x:Name="LabelContactsPermission"/>
+                <Button x:Name="ButtonRefreshContactsPermission" Clicked="ButtonRefreshContactsPermission_OnClicked" Text="Refresh Permissions"/>
+                <Label Text="Number of Contacts Read"/>
+                <Label x:Name="LabelContactsRead"/>
+                <Button x:Name="ButtonContactsRead" Clicked="ButtonContactsRead_OnClicked" Text="Read Contacts"/>
+                <Label Text="Ryan's contact"/>
+                <Label x:Name="LabelContactRyan"/>
+                <Button x:Name="ButtonContactRyan" Clicked="ButtonContactRyan_OnClicked" Text="Find Ryan's Contact"/>
+                <Label Text="Multiple numbered Contact"/>
+                <Label x:Name="LabelContactMultiple"/>
+                <Button x:Name="ButtonContactMultiple" Clicked="ButtonContactMultiple_OnClicked" Text="Find Multiple Contact"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

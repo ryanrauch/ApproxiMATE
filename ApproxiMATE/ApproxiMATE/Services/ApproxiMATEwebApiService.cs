@@ -33,6 +33,10 @@ namespace ApproxiMATE.Services
             if(!client.DefaultRequestHeaders.Contains("Authorization"))
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _jwtToken);
         }
+        private void RemoveHeaders()
+        {
+            client.DefaultRequestHeaders.Clear();
+        }
 
         public async Task<ApplicationUser> InitializeAppUserAsync(string userName)
         {
@@ -41,6 +45,44 @@ namespace ApproxiMATE.Services
             var response = await client.GetStringAsync(Constants.ApproxiMATEwebApiBase + "api/ApplicationUsers");
             users = JsonConvert.DeserializeObject<List<ApplicationUser>>(response);
             return users.Find(x => String.Equals(x.userName,userName, StringComparison.OrdinalIgnoreCase));
+        }
+        public async Task<Boolean> RegisterUserAsync(UserRegister user)
+        {
+            RemoveHeaders();
+            var parameters = new Dictionary<string, string>
+            {
+                { "UserName", user.UserName },
+                { "Email", user.Email },
+                { "Password", user.Password },
+                { "DateofBirth", user.DateofBirth.ToString() },
+                { "FirstName", user.FirstName },
+                { "LastName", user.LastName },
+                { "PhoneNumber", user.PhoneNumber }
+            };
+            var content = new FormUrlEncodedContent(parameters);
+            var response = await client.PostAsync(Constants.ApproxiMATEwebApiBase + "api/Registration", content);
+            if(response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<List<UserPhoneResult>> PostUserPhoneNumberResultsAsync(UserPhoneNumbers numbers)
+        {
+            var items = new List<UserPhoneResult>();
+            if (App.AppUser != null && !App.AppUser.id.Equals(numbers.UserId))
+                return items;
+            AddJwtHeader();
+            var json = JsonConvert.SerializeObject(numbers);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(Constants.ApproxiMATEwebApiBase + "api/UserPhoneNumbers", content);
+            if(response.IsSuccessStatusCode)
+            {
+                var jsonresult = response.Content.ReadAsStringAsync().Result;
+                items = JsonConvert.DeserializeObject<List<UserPhoneResult>>(jsonresult);
+            }
+            return items;
         }
 
         public async Task<HttpResponseMessage> InitializeClientAsync (string userName, string password, bool persistent)
@@ -66,11 +108,27 @@ namespace ApproxiMATE.Services
         {
             if (App.AppUser != null && data.id != App.AppUser.id)
                 return;
+            AddJwtHeader();
             var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await client.PutAsync(Constants.ApproxiMATEwebApiBase + "api/ApplicationUsers/" + data.id.ToString(), content);
             if (response.IsSuccessStatusCode)
                 App.AppUser = data;
             return;
+        }
+
+        public async Task PutCurrentLocationAsync(CurrentLocation currentLocation)
+        {
+            if (App.AppUser != null && App.AppUser.id.ToString() != currentLocation.UserId)
+                return;
+            AddJwtHeader();
+            var content = new StringContent(JsonConvert.SerializeObject(currentLocation), Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(Constants.ApproxiMATEwebApiBase + "api/CurrentLocation/" + currentLocation.UserId, content);
+            if (response.IsSuccessStatusCode)
+            {
+                App.AppUser.currentLatitude = currentLocation.Latitude;
+                App.AppUser.currentLongitude = currentLocation.Longitude;
+                App.AppUser.currentTimeStamp = DateTime.Now;
+            }
         }
 
         public async Task<List<ZoneState>> GetZoneStatesAsync()

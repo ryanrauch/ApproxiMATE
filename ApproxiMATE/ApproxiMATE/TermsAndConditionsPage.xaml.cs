@@ -60,7 +60,8 @@ namespace ApproxiMATE
         {
             App.AppUser.termsAndConditionsDate = DateTime.Now;
             await App.approxiMATEService.PutApplicationUserAsync(App.AppUser);
-            
+            Navigation.InsertPageBefore(new MainPage(), this);
+            await Navigation.PopAsync();
         }
     }
 }

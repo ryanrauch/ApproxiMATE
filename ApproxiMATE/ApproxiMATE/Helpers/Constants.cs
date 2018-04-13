@@ -9,6 +9,7 @@ namespace ApproxiMATE
         public static readonly string GoogleMapsAndroidAPIKey = "AIzaSyCBpqA-hWtBQ4GXDFf-AE5LazSonFx-sKY";
         public static readonly string GoogleMapsIOSAPIKey = "AIzaSyBbR8Sqi4ueD-Y_DUgkNHYfkFc1SXbPqo4";
         public static readonly string ApproxiMATEwebApiBase = "https://approximatewebapi.azurewebsites.net/";
+        //public static readonly string ApproxiMATEwebApiBase = "https:--//localhost:44376/";
         public static readonly string ApplicationName = "com.ryanrauch.ApproxiMATE";
         public static readonly string AccountStorePasswordKey = "Password";
 

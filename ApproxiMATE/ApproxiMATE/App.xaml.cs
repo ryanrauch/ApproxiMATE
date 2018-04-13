@@ -20,8 +20,8 @@ namespace ApproxiMATE
         public static ApplicationOption AppOptions { get; set; }
 	    public static double ScreenHeight { get; set; }
 	    public static double ScreenWidth { get; set; }
-        public static IApproxiMATEService approxiMATEService { get; set; }
-        public static AccountServiceXamarinAuth AccountService { get; set; }
+        public static ApproxiMATEwebApiService approxiMATEService { get; set; }      //TODO: convert back to interface
+        public static AccountServiceXamarinAuth AccountService { get; set; }    //TODO: convert to interface
 
 		public App ()
 		{
