@@ -26,12 +26,29 @@ namespace ApproxiMATE
         public async Task AcquireUsersFromPhoneNumbers(UserPhoneNumbers numbers)
         {
             var results = await App.approxiMATEService.PostUserPhoneNumberResultsAsync(numbers);
+            var friends = await App.approxiMATEService.GetFriendRequestsAsync(numbers.UserId);
             foreach (var item in results)
             {
                 for (int i = 0; i < PhoneContacts.Count; ++i)
                 {
                     if (PhoneContacts[i].PhoneNumbers.Contains(item.PhoneNumber))
+                    {
+                        PhoneContacts[i].ApproxUserId = item.UserId.ToString();
                         PhoneContacts[i].Status = FriendStatus.Available;
+                        if (friends.Any(f => f.InitiatorId.Equals(numbers.UserId) && f.TargetId.Equals(item.UserId)))
+                        {
+                            PhoneContacts[i].Status = FriendStatus.Initiated;
+                            if (friends.Any(f => f.InitiatorId.Equals(item.UserId) && f.TargetId.Equals(numbers.UserId)))
+                            {
+                                PhoneContacts[i].Status = FriendStatus.Mutual;
+                            }
+                        }
+                        else if (friends.Any(f => f.InitiatorId.Equals(item.UserId) && f.TargetId.Equals(numbers.UserId)))
+                        {
+                            PhoneContacts[i].Status = FriendStatus.PendingRequest;
+                        }
+
+                    }
                 }
             }
         }
@@ -122,13 +139,69 @@ namespace ApproxiMATE
             return input;
         }
 
-        public Command CommandAddFriend
+        public async Task<Boolean> FriendRequestRemove(PhoneContact contact)
+        {
+            var data = new FriendRequest()
+            {
+                InitiatorId = App.AppUser.id,
+                TargetId = Guid.Parse(contact.ApproxUserId),
+                TimeStamp = DateTime.Now,
+                Type = FriendRequestType.Normal
+            };
+            var result = await App.approxiMATEService.PutFriendRequestAsync(data);
+            return result;
+        }
+
+        public async Task<Boolean> FriendRequestCreate(PhoneContact contact)
+        {
+            var data = new FriendRequest()
+            {
+                InitiatorId = App.AppUser.id,
+                TargetId = Guid.Parse(contact.ApproxUserId),
+                TimeStamp = DateTime.Now,
+                Type = FriendRequestType.Normal
+            };
+            var result = await App.approxiMATEService.PostFriendRequestAsync(data);
+            return result;
+        }
+
+        public Command CommandFriend
         {
             get
             {
-                return new Command((e) =>
+                return new Command(async (e) =>
                 {
                     var item = (e as PhoneContact);
+                    switch(item.Status)
+                    {
+                        case FriendStatus.Available:
+                            //send friend request
+                            var worked = await FriendRequestCreate(item);
+                            if (worked)
+                                item.Status = FriendStatus.Initiated;
+                            break;
+                        case FriendStatus.Initiated:
+                            //un-friend
+                            var initWorked = await FriendRequestRemove(item);
+                            if (initWorked)
+                                item.Status = FriendStatus.Available;
+                            break;
+                        case FriendStatus.Mutual:
+                            //un-friend
+                            var mutualWorked = await FriendRequestRemove(item);
+                            if (mutualWorked)
+                                item.Status = FriendStatus.PendingRequest;
+                            break;
+                        case FriendStatus.NotRegistered:
+                            //invite via sms
+                            break;
+                        case FriendStatus.PendingRequest:
+                            //approve
+                            var pendingWorked = await FriendRequestCreate(item);
+                            if (pendingWorked)
+                                item.Status = FriendStatus.Mutual;
+                            break;
+                    }
                 });
             }
         }

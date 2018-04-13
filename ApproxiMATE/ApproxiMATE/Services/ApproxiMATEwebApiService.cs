@@ -38,6 +38,15 @@ namespace ApproxiMATE.Services
             client.DefaultRequestHeaders.Clear();
         }
 
+        public async Task<List<FriendRequest>> GetFriendRequestsAsync(Guid userId)
+        {
+            var items = new List<FriendRequest>();
+            AddJwtHeader();
+            var response = await client.GetStringAsync(Constants.ApproxiMATEwebApiBase + "api/FriendRequests/" + userId.ToString());
+            items = JsonConvert.DeserializeObject<List<FriendRequest>>(response);
+            return items;
+        }
+
         public async Task<ApplicationUser> InitializeAppUserAsync(string userName)
         {
             var users = new List<ApplicationUser>();
@@ -102,6 +111,41 @@ namespace ApproxiMATE.Services
                 _initialized = true;
             }
             return response;
+        }
+        public async Task<Boolean> DeleteFriendRequestAsync(FriendRequest data)
+        {
+            return await PutFriendRequestAsync(data);
+        }
+
+        public async Task<Boolean> PostFriendRequestAsync(FriendRequest data)
+        {
+            if (App.AppUser != null && data.InitiatorId != App.AppUser.id)
+                return false;
+            AddJwtHeader();
+            var json = JsonConvert.SerializeObject(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(Constants.ApproxiMATEwebApiBase + "api/FriendRequests", content);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        //actually used to remove/delete a friendrequest
+        public async Task<Boolean> PutFriendRequestAsync(FriendRequest data)
+        {
+            if (App.AppUser != null && data.InitiatorId != App.AppUser.id)
+                return false;
+            AddJwtHeader();
+            var json = JsonConvert.SerializeObject(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(Constants.ApproxiMATEwebApiBase + "api/FriendRequests/" + data.InitiatorId, content);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task PutApplicationUserAsync(ApplicationUser data)

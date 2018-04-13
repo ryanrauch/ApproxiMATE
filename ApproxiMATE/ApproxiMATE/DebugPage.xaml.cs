@@ -71,7 +71,7 @@ namespace ApproxiMATE
         {
             string search = "4767";
             var contacts = await Plugin.ContactService.CrossContactService.Current.GetContactListAsync();
-            var ryan = contacts.First(c => (!String.IsNullOrEmpty(c.Number) && c.Number.Contains(search))
+            var ryan = contacts.FirstOrDefault(c => (!String.IsNullOrEmpty(c.Number) && c.Number.Contains(search))
                                                     || (c.Numbers != null && c.Numbers.Count > 0 && c.Numbers.Exists(n=>n.Contains(search))));
             if (ryan != null)
             {

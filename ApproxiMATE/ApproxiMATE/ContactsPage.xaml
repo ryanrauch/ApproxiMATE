@@ -23,7 +23,7 @@
                                             Text="{Binding Path=PhoneNumber}"
                                             FontSize="Large"/>-->
                                     <Button Grid.Column="1" 
-                                            Command="{Binding Path=BindingContext.CommandAddFriend, Source={x:Reference ListViewContacts}}"
+                                            Command="{Binding Path=BindingContext.CommandFriend, Source={x:Reference ListViewContacts}}"
                                             CommandParameter="{Binding .}"
                                             Text="{Binding Path=ButtonText}"
                                             FontSize="Large"/>
