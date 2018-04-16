@@ -18,7 +18,7 @@ namespace ApproxiMATE
         public ContactsViewModel()
         {
             PhoneContacts = new ObservableCollection<PhoneContact>();
-            AcquirePhoneContacts(true);
+            AcquirePhoneContacts(true).ConfigureAwait(false);
         }
 
         // TODO: make this more efficient
@@ -47,7 +47,10 @@ namespace ApproxiMATE
                         {
                             PhoneContacts[i].Status = FriendStatus.PendingRequest;
                         }
-
+                        if(PhoneContacts[i].ApproxUserId.Equals(App.AppUser.id.ToString()))
+                        {
+                            PhoneContacts[i].Status = FriendStatus.Blocked;
+                        }
                     }
                 }
             }

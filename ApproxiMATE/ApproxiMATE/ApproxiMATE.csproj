@@ -5,11 +5,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BindableMapPage.xaml.cs" />
+    <Compile Remove="Controls\BindableMap.cs" />
+    <Compile Remove="Controls\CustomMap.cs" />
+    <Compile Remove="Controls\CustomPin.cs" />
+    <Compile Remove="MapPage.xaml.cs" />
+    <Compile Remove="ViewModels\MapViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="BindableMapPage.xaml" />
+    <EmbeddedResource Remove="MapPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\approx1024.png" />
+    <None Remove="Images\approxlogo.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Images\approx1024.png" />
+    <EmbeddedResource Include="Images\approxlogo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,7 +35,7 @@
     <PackageReference Include="Xamarin.Auth" Version="1.6.0.1" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.280555" />
     <PackageReference Include="Xamarin.Forms.Contacts" Version="1.0.3" />
-    <PackageReference Include="Xamarin.Forms.Maps" Version="2.5.0.280555" />
+    <PackageReference Include="Xamarin.Forms.GoogleMaps" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,19 +55,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="BindableMapPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="ContactsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="DebugPage.xaml">
+    <EmbeddedResource Update="DebugMapPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GoogleMapPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="LoginPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="MapPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="SignUpPage.xaml">

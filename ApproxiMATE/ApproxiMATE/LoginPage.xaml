@@ -10,7 +10,8 @@
         <ScrollView>
             <StackLayout Orientation="Vertical"
                      VerticalOptions="StartAndExpand">
-                <Image Source="{local:ImageResource ApproxiMATE.Images.approx1024.png}" />
+                <!--<Image Source="{local:ImageResource ApproxiMATE.Images.approx1024.png}" />-->
+                <Image Source="{local:ImageResource ApproxiMATE.Images.approxlogo.png}" />
                 <Label x:Name="LabelLoadingCredentials"
                    Text="Checking User Credentials"
                    HorizontalTextAlignment="Center"

@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +14,7 @@ using Android.Widget;
 using ApproxiMATE;
 using ApproxiMATE.Droid;
 using Xamarin.Forms;
+//using Xamarin.Forms.GoogleMaps.Android;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Maps.Android;
 using Xamarin.Forms.Platform.Android;
@@ -66,3 +67,4 @@ namespace ApproxiMATE.Droid
 
     }
 }
+*/

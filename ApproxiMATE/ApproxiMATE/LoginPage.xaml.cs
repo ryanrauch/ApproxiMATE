@@ -41,6 +41,16 @@ namespace ApproxiMATE
 
         protected override async void OnAppearing()
         {
+            //var permissionAlways = await Utilities.CheckPermissionsAsync(Plugin.Permissions.Abstractions.Permission.LocationAlways);
+            var permission = await Utilities.CheckPermissionsAsync(Plugin.Permissions.Abstractions.Permission.LocationWhenInUse);
+            if(permission != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
+            {
+                //TODO: create error page
+                //re-direct to different page.
+                //for now do nothing
+                await DisplayAlert("Location Permissions", "Please enable location services.", "OK");
+            }
+
             string un = App.AccountService.UserName;
             string pw = null;
             if (un != null)

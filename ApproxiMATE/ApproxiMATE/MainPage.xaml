@@ -2,16 +2,19 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ApproxiMATE"
+             xmlns:controls="clr-namespace:ApproxiMATE.Controls"
              x:Class="ApproxiMATE.MainPage">
     <ContentPage.ToolbarItems>
+        <!--<ToolbarItem Text="GoogleMap" Clicked="OnGoogleMapClicked" />-->
+        <ToolbarItem Text="DebugMap" Clicked="OnDebugMapButtonClicked" />
         <ToolbarItem Text="Debug" Clicked="OnDebugButtonClicked" />
         <ToolbarItem Text="Contacts" Clicked="OnContactsButtonClicked"/>
         <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Label Text="Main approx content here..." 
-                   VerticalOptions="Center" 
-                   HorizontalOptions="Center" />
+        <controls:CustomGoogleMap x:Name="MapMain"
+                                  HorizontalOptions="FillAndExpand"
+                                  VerticalOptions="FillAndExpand"/>
         <!--<StackLayout Orientation="Vertical" 
                      VerticalOptions="CenterAndExpand">
             --><!--<Image Source="{local:ImageResource ApproxiMATE.Images.approx1024.png}" />--><!--

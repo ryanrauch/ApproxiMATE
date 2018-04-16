@@ -82,4 +82,24 @@ namespace ApproxiMATE.Models
         public Guid UserId { get; set; }
         public List<string> Numbers { get; set; }
     }
+
+    public class FriendLocationBoxRequest
+    {
+        public Guid UserId { get; set; }
+        public string BoundingBox { get; set; }
+    }
+
+    public class FriendLocationBox
+    {
+        public string BoundingBox { get; set; }
+        public List<FriendLocationResult> Friends { get; set; }
+    }
+
+    public class FriendLocationResult
+    {
+        public Guid UserId { get; set; }
+        public string PhoneNumber { get; set; }
+        public string UserName { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
 }

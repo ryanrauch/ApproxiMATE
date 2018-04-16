@@ -12,6 +12,12 @@ namespace ApproxiMATE
 {
     public static class Utilities
     {
+        public static async Task<Xamarin.Forms.GoogleMaps.Position> GetCurrentGeolocationGooglePositionAsync()
+        {
+            var cross = await GetCurrentGeolocationAsync();
+            return new Xamarin.Forms.GoogleMaps.Position(cross.Latitude, cross.Longitude);
+        }
+
         public static async Task<Position> GetCurrentGeolocationAsync()
         {
             if (!CrossGeolocator.IsSupported || !CrossGeolocator.Current.IsGeolocationEnabled || !CrossGeolocator.Current.IsGeolocationAvailable)
@@ -39,7 +45,7 @@ namespace ApproxiMATE
                     var result = await task;
                     if (result)
                         CrossPermissions.Current.OpenAppSettings();
-                    return permissionStatus;                   
+                    //return permissionStatus;                   
                 }
                 request = true;
             }

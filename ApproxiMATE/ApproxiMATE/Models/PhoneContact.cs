@@ -40,6 +40,8 @@ namespace ApproxiMATE.Models
                         return "<-";
                     case FriendStatus.Available:
                         return "+";
+                    case FriendStatus.Blocked:
+                        return String.Empty;
                 }
                 return string.Empty;
             }

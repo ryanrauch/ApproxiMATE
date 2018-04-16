@@ -8,7 +8,7 @@
     <local:BindableMap x:Name="MapContent" 
                        MapType="Satellite" 
                        MapPosition="{Binding MyPosition}" 
-                       Pins="{Binding PinCollection, Mode=TwoWay}"
+                       CustomPins="{Binding PinCollection, Mode=TwoWay}"
                        PolygonCoordinates="{Binding PolygonCollection, Mode=TwoWay}"
                        ZoomLevel="{Binding MyZoomLevel}" />
     <!--<ContentPage.Content>

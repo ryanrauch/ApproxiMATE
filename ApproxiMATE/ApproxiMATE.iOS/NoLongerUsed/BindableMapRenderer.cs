@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+ * using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -101,7 +102,7 @@ namespace ApproxiMATE.iOS
                         LineWidth = 10
                     };
                     return polygonRenderer;
-                }*/
+                }*-/
             }
             return null;
         }
@@ -150,7 +151,7 @@ namespace ApproxiMATE.iOS
                 remCoords[1] = new CLLocationCoordinate2D(30.402455, -97.722248);
                 remCoords[2] = new CLLocationCoordinate2D(30.402561, -97.722623);
                 remCoords[3] = new CLLocationCoordinate2D(30.402302, -97.722784);
-                */
+                *-/
                 var blockOverlay = MKPolygon.FromCoordinates(coords);
                 //CustomMKPolygon cmkp = CustomMKPolygon.FromCoordinates(coords);
                 blockOverlay.Title = "rockrose";
@@ -180,7 +181,7 @@ namespace ApproxiMATE.iOS
 
                 
                 //Custom Pin Section
-                customPins = formsMap.Pins;
+                customPins = formsMap.CustomPins;
                 nativeMap.GetViewForAnnotation = GetViewForAnnotation;
                 nativeMap.CalloutAccessoryControlTapped += OnCalloutAccessoryControlTapped;
                 nativeMap.DidSelectAnnotationView += OnDidSelectAnnotationView;
@@ -221,3 +222,4 @@ namespace ApproxiMATE.iOS
         }
     }
 }
+*/

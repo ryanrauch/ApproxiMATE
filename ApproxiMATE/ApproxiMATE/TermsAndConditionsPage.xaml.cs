@@ -51,7 +51,7 @@ namespace ApproxiMATE
             base.OnAppearing();
         }
 
-        public async void Switch_OnToggled(Object sender, ToggledEventArgs e)
+        public void Switch_OnToggled(Object sender, ToggledEventArgs e)
         {
             ButtonAccept.IsEnabled = SwitchEULA.IsToggled && SwitchTerms.IsToggled;
         }

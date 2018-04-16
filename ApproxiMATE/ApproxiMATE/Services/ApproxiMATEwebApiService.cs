@@ -116,6 +116,22 @@ namespace ApproxiMATE.Services
         {
             return await PutFriendRequestAsync(data);
         }
+        public async Task<FriendLocationBox> PostFriendLocationBoxAsync(FriendLocationBoxRequest data)
+        {
+            var box = new FriendLocationBox();
+            if (App.AppUser != null && data.UserId != App.AppUser.id)
+                return box;
+            AddJwtHeader();
+            var json = JsonConvert.SerializeObject(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(Constants.ApproxiMATEwebApiBase + "api/FriendLocationBox", content);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonresult = response.Content.ReadAsStringAsync().Result;
+                box = JsonConvert.DeserializeObject<FriendLocationBox>(jsonresult);
+            }
+            return box;
+        }
 
         public async Task<Boolean> PostFriendRequestAsync(FriendRequest data)
         {

@@ -24,7 +24,8 @@ namespace ApproxiMATE.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            Xamarin.FormsMaps.Init();
+            Xamarin.FormsGoogleMaps.Init(Constants.GoogleMapsSDKapiKeyiOS);
+            //Xamarin.FormsMaps.Init();
             App.ScreenWidth = UIScreen.MainScreen.Bounds.Width;
             App.ScreenHeight = UIScreen.MainScreen.Bounds.Height;
             

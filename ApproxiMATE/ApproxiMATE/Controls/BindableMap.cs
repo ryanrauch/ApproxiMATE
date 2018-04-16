@@ -40,11 +40,11 @@ namespace ApproxiMATE
         private static void MapPinsPropertyChanged(BindableObject b, object o, object n)
         {
             var bindable = (BindableMap)b;
-            bindable.Pins.Clear();
+            bindable.CustomPins.Clear();
 
             var collection = (ObservableCollection<CustomPin>)n;
             foreach (var item in collection)
-                bindable.Pins.Add(item);
+                bindable.CustomPins.Add(item);
             collection.CollectionChanged += (sender, e) =>
             {
                 Device.BeginInvokeOnMainThread(() =>
@@ -56,13 +56,13 @@ namespace ApproxiMATE
                         case NotifyCollectionChangedAction.Remove:
                             if (e.OldItems != null)
                                 foreach (var item in e.OldItems)
-                                    bindable.Pins.Remove((CustomPin)item);
+                                    bindable.CustomPins.Remove((CustomPin)item);
                             if (e.NewItems != null)
                                 foreach (var item in e.NewItems)
-                                    bindable.Pins.Add((CustomPin)item);
+                                    bindable.CustomPins.Add((CustomPin)item);
                             break;
                         case NotifyCollectionChangedAction.Reset:
-                            bindable.Pins.Clear();
+                            bindable.CustomPins.Clear();
                             break;
                     }
                 });
@@ -70,14 +70,14 @@ namespace ApproxiMATE
         }
 
         public static readonly BindableProperty MapPinsProperty = BindableProperty.Create(
-                 nameof(Pins),
+                 nameof(CustomPins),
                  typeof(ObservableCollection<CustomPin>),
                  typeof(BindableMap),
                  new ObservableCollection<CustomPin>(),
                  BindingMode.TwoWay,
                  propertyChanged: MapPinsPropertyChanged);
 
-        public IList<CustomPin> Pins
+        public IList<CustomPin> CustomPins
         {
             get { return (IList<CustomPin>)base.GetValue(MapPinsProperty); }
             set { base.SetValue(MapPinsProperty, value); }

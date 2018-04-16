@@ -22,9 +22,9 @@ namespace ApproxiMATE
             _isBusy = false;
 		}
 
-        public async void ButtonOpenMap_OnClicked(object sender, EventArgs e)
+        public void ButtonOpenMap_OnClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new BindableMapPage());
+            //await Navigation.PushAsync(new BindableMapPage());
         }
 
         public async void ButtonPermission_OnClicked(object sender, EventArgs e)

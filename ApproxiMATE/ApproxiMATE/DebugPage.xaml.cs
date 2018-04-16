@@ -22,7 +22,7 @@ namespace ApproxiMATE
 			InitializeComponent ();
 		}
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             //await UpdateLocationPermission();
             base.OnAppearing();
@@ -30,8 +30,15 @@ namespace ApproxiMATE
 
         public async Task UpdateLocationPermission()
         {
-            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-            LabelLocationPermission.Text = status.ToString();
+            var loc = await Utilities.CheckPermissionsAsync(Permission.Location);
+            var opened = await Utilities.CheckPermissionsAsync(Permission.LocationWhenInUse);
+            var always = await Utilities.CheckPermissionsAsync(Permission.LocationAlways);
+            LabelLocationPermission.Text = String.Format("LocationWhenInUse:{0} LocationAlways:{1} Location:{2}", 
+                                                         opened.ToString(), 
+                                                         always.ToString(),
+                                                         loc.ToString());
+            //var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+            //LabelLocationPermission.Text = status.ToString();
         }
 
         public async Task UpdateContactsPermission()

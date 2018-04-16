@@ -21,7 +21,7 @@ namespace ApproxiMATE.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            Xamarin.FormsMaps.Init(this, bundle);
+            //Xamarin.FormsMaps.Init(this, bundle);
             var width = Resources.DisplayMetrics.WidthPixels;
             var height = Resources.DisplayMetrics.HeightPixels;
             var density = Resources.DisplayMetrics.Density;
