@@ -43,7 +43,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>ApproxiMATE needs to access your contacts to find friends</string>
 	<key>XSAppIconAssets</key>
-	<string>Resources/Assets.xcassets/AppIconsApprox.appiconset</string>
+	<string>Assets.xcassets/AppIconsApprox.appiconset</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>XSLaunchImageAssets</key>
