@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using ApproxiMATE.Helpers;
+using ApproxiMATE.Views;
 
 namespace ApproxiMATE
 {
@@ -46,6 +47,8 @@ namespace ApproxiMATE
                         MapMain.Polygons.Add(GetPolygon(CoordinateFunctions.GetBoundingBoxNearby(box, lat, lon), Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
                     }
                 }
+
+                MapMain.GroundOverlays.Add(GetGroundOverlay(box));
                 /*
                 string box = CoordinateFunctions.GetBoundingBox(position);
                 MapMain.Polygons.Add(GetPolygon(box, Color.FromRgba(128, 0, 0, 128), Color.Transparent));
@@ -91,18 +94,21 @@ namespace ApproxiMATE
             return poly;
         }
 
-        //public GroundOverlay GetGroundOverlay(string box)
-        //{
-        //    GroundOverlay overlay = new GroundOverlay();
-        //    var southWest = new Position(CoordinateFunctions.GetLatitudeCeilingFromBox(box), 
-        //                                 CoordinateFunctions.GetLongitudeCeilingFromBox(box));
-        //    var northEast = new Position(CoordinateFunctions.GetLatitudeFloorFromBox(box), 
-        //                                 CoordinateFunctions.GetLongitudeFloorFromBox(box));
-        //    overlay.Bounds = new Bounds(southWest, northEast);
-        //    overlay.Transparency = 0.5f;
-        //    return overlay;
-        //}
-        public async Task OnDebugMapButtonClicked(object sender, EventArgs e)
+        public GroundOverlay GetGroundOverlay(string box)
+        {
+            GroundOverlay overlay = new GroundOverlay();
+            var southWest = new Position(CoordinateFunctions.GetLatitudeCeilingFromBox(box),
+                                         CoordinateFunctions.GetLongitudeCeilingFromBox(box));
+            var northEast = new Position(CoordinateFunctions.GetLatitudeFloorFromBox(box),
+                                         CoordinateFunctions.GetLongitudeFloorFromBox(box));
+            var boxView = new MapBoxContentView();
+            overlay.Icon = BitmapDescriptorFactory.FromView(boxView);
+            overlay.Bounds = new Bounds(southWest, northEast);
+            overlay.Transparency = 0.5f;
+            return overlay;
+        }
+
+        public async void OnDebugMapButtonClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new DebugMapPage());
         }
