@@ -102,4 +102,25 @@ namespace ApproxiMATE.Models
         public string UserName { get; set; }
         public DateTime Timestamp { get; set; }
     }
+
+    public class ZoneRegionPolygon
+    {
+        public int RegionId { get; set; }
+        public int Order { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
+
+    public class ZoneRegion
+    {
+        public int RegionId { get; set; }
+        public String Description { get; set; }
+        public int Type { get; set; }               //enum
+        public virtual ZoneCity City { get; set; }  //???
+        public double BoundLatitudeMin { get; set; }
+        public double BoundLatitudeMax { get; set; }
+        public double BoundLongitudeMin { get; set; }
+        public double BoundLongitudeMax { get; set; }
+        public String RGBColorHex { get; set; }
+    }
 }

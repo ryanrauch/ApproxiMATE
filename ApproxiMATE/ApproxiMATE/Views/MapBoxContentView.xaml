@@ -5,10 +5,10 @@
              HeightRequest="200"
              WidthRequest="100">
   <ContentView.Content>
-        <StackLayout HorizontalOptions="FillAndExpand"
-                     VerticalOptions="FillAndExpand">
-            <Label Text="Hello Xamarin.Forms!" />
-            <Label Text="Line number 2" />
-        </StackLayout>
+        <!--<StackLayout HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand">-->
+            <Label Text="Hello Xamarin.Forms!" TextColor="Blue" />
+            <!--<Label Text="Line number 2" />
+        </StackLayout>-->
     </ContentView.Content>
 </ContentView>

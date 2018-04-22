@@ -9,6 +9,7 @@ namespace ApproxiMATE.Helpers
     //      DO NOT CHANGE THIS FILE WITHOUT CHANGING ApproxiMATEwebApi.Helpers.CoordinateFilter.cs also
     public static class CoordinateFunctions
     {
+        public static readonly double BOXWIDTH = 0.01;
         public static double LatitudeBound(double input)
         {
             return Math.Floor(input * 100) / 100;
@@ -18,7 +19,10 @@ namespace ApproxiMATE.Helpers
         {
             return LatitudeBound(input);
         }
-
+        public static Position GetCenterPositionFromBox(string box)
+        {
+            return new Position(GetLatitudeFloorFromBox(box) + BOXWIDTH/2, GetLongitudeFloorFromBox(box) + BOXWIDTH/2);
+        }
         public static string GetBoundingBox(Position position)
         {
             return GetBoundingBox(position.Latitude, position.Longitude);

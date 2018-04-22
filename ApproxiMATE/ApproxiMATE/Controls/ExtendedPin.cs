@@ -5,8 +5,8 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace ApproxiMATE.Controls
 {
-    public class CustomGoogleMap : Map
+    public class ExtendedPin
     {
-        public List<ExtendedPin> ExtendedPins { get; set; }
+        public string PinLabel = "extended pin";
     }
 }

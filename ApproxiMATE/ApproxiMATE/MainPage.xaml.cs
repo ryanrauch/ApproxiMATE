@@ -48,7 +48,12 @@ namespace ApproxiMATE
                     }
                 }
 
-                MapMain.GroundOverlays.Add(GetGroundOverlay(box));
+                //MapMain.GroundOverlays.Add(GetGroundOverlay(box));
+
+                MapMain.Pins.Add(GetPin(box));
+
+                var northAustin = await App.approxiMATEService.GetZoneRegionPolygonsAsync(1);
+                MapMain.Polygons.Add(GetPolygon(northAustin));
                 /*
                 string box = CoordinateFunctions.GetBoundingBox(position);
                 MapMain.Polygons.Add(GetPolygon(box, Color.FromRgba(128, 0, 0, 128), Color.Transparent));
@@ -77,6 +82,17 @@ namespace ApproxiMATE
             }
         }
 
+        // This function assumes that the List of ZoneRegionPolygon's is already sorted by "Order" Column
+        public Polygon GetPolygon(List<ZoneRegionPolygon> coordinates)
+        {
+            Polygon poly = new Polygon();
+            foreach (ZoneRegionPolygon c in coordinates)
+            {
+                poly.Positions.Add(new Position(c.Latitude, c.Longitude));
+            }
+            return poly;
+        }
+
         public Polygon GetPolygon(string box, Color fill, Color stroke)
         {
             Polygon poly = new Polygon();
@@ -93,6 +109,26 @@ namespace ApproxiMATE
             poly.StrokeWidth = 1;
             return poly;
         }
+        public Pin GetPin(string box)
+        {
+            var pin = new Pin();
+            //pin.Icon = BitmapDescriptorFactory.FromView(new MapBoxContentView());
+            pin.Icon = BitmapDescriptorFactory.FromView(new ContentView
+                                                        {
+                                                            WidthRequest = 100,
+                                                            HeightRequest = 100,
+                                                            Content = new Label
+                                                                      {
+                                                                        Text = box,
+                                                                        HorizontalTextAlignment = TextAlignment.Center,
+                                                                        VerticalTextAlignment = TextAlignment.Center
+                                                                      }
+                                                        });
+            pin.Position = CoordinateFunctions.GetCenterPositionFromBox(box);
+            pin.Type = PinType.Generic;
+            pin.Label = box;
+            return pin;
+        }
 
         public GroundOverlay GetGroundOverlay(string box)
         {
@@ -101,8 +137,14 @@ namespace ApproxiMATE
                                          CoordinateFunctions.GetLongitudeCeilingFromBox(box));
             var northEast = new Position(CoordinateFunctions.GetLatitudeFloorFromBox(box),
                                          CoordinateFunctions.GetLongitudeFloorFromBox(box));
-            var boxView = new MapBoxContentView();
-            overlay.Icon = BitmapDescriptorFactory.FromView(boxView);
+            //var boxView = new MapBoxContentView();
+            //overlay.Icon = BitmapDescriptorFactory.FromView(boxView);
+            overlay.Icon = BitmapDescriptorFactory.FromView(new ContentView
+            {
+                WidthRequest=100,
+                HeightRequest=100,
+                Content = new Label { Text = box }
+            });
             overlay.Bounds = new Bounds(southWest, northEast);
             overlay.Transparency = 0.5f;
             return overlay;

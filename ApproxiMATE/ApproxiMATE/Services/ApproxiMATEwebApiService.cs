@@ -191,6 +191,23 @@ namespace ApproxiMATE.Services
             }
         }
 
+        public async Task<List<ZoneRegionPolygon>> GetZoneRegionPolygonsAsync(int regionId)
+        {
+            var items = new List<ZoneRegionPolygon>();
+            AddJwtHeader();
+            var response = await client.GetStringAsync(Constants.ApproxiMATEwebApiBase + "api/ZoneRegionPolygons/" + regionId.ToString());
+            items = JsonConvert.DeserializeObject<List<ZoneRegionPolygon>>(response);
+            return items;
+        }
+        public async Task<ZoneRegion> GetZoneRegionAsync(int regionId)
+        {
+            var item = new ZoneRegion();
+            AddJwtHeader();
+            var response = await client.GetStringAsync(Constants.ApproxiMATEwebApiBase + "api/ZoneRegions/" + regionId.ToString());
+            item = JsonConvert.DeserializeObject<ZoneRegion>(response);
+            return item;
+        }
+
         public async Task<List<ZoneState>> GetZoneStatesAsync()
         {
             var items = new List<ZoneState>();
