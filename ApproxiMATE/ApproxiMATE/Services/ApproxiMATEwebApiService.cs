@@ -190,6 +190,14 @@ namespace ApproxiMATE.Services
                 App.AppUser.currentTimeStamp = DateTime.Now;
             }
         }
+        public async Task<List<ZoneRegion>> GetZoneRegionsAsync()
+        {
+            var items = new List<ZoneRegion>();
+            AddJwtHeader();
+            var response = await client.GetStringAsync(Constants.ApproxiMATEwebApiBase + "api/ZoneRegions");
+            items = JsonConvert.DeserializeObject<List<ZoneRegion>>(response);
+            return items;
+        }
 
         public async Task<List<ZoneRegionPolygon>> GetZoneRegionPolygonsAsync(int regionId)
         {

@@ -14,11 +14,11 @@ namespace ApproxiMATE
 {
 	public partial class MainPage : ContentPage
 	{
-        private static readonly Distance INITIAL_DISTANCE = Distance.FromKilometers(1.25d);
+        private static readonly Distance INITIAL_DISTANCE = Distance.FromKilometers(5.0d);
 		public MainPage()
 		{
 			InitializeComponent();
-            MapMain.MapStyle = MapStyle.FromJson(Constants.GoogleMapStyleSilverLimited);
+            MapMain.MapStyle = MapStyle.FromJson(Constants.GoogleMapStyleSilverBlueWater);
         }
         protected override async void OnAppearing()
         {
@@ -52,8 +52,18 @@ namespace ApproxiMATE
 
                 MapMain.Pins.Add(GetPin(box));
 
-                var northAustin = await App.approxiMATEService.GetZoneRegionPolygonsAsync(1);
-                MapMain.Polygons.Add(GetPolygon(northAustin));
+                var regions = await App.approxiMATEService.GetZoneRegionsAsync();
+                foreach(ZoneRegion region in regions)
+                {
+                    var poly = await App.approxiMATEService.GetZoneRegionPolygonsAsync(region.RegionId);
+                    MapMain.Polygons.Add(GetPolygon(poly, region));
+                }
+
+                //var northAustin = await App.approxiMATEService.GetZoneRegionPolygonsAsync(1);
+                //MapMain.Polygons.Add(GetPolygon(northAustin));
+                //var pflugerville = await App.approxiMATEService.GetZoneRegionPolygonsAsync(2);
+                //MapMain.Polygons.Add(GetPolygon(pflugerville));
+
                 /*
                 string box = CoordinateFunctions.GetBoundingBox(position);
                 MapMain.Polygons.Add(GetPolygon(box, Color.FromRgba(128, 0, 0, 128), Color.Transparent));
@@ -83,13 +93,16 @@ namespace ApproxiMATE
         }
 
         // This function assumes that the List of ZoneRegionPolygon's is already sorted by "Order" Column
-        public Polygon GetPolygon(List<ZoneRegionPolygon> coordinates)
+        public Polygon GetPolygon(List<ZoneRegionPolygon> coordinates, ZoneRegion region)
         {
             Polygon poly = new Polygon();
             foreach (ZoneRegionPolygon c in coordinates)
             {
                 poly.Positions.Add(new Position(c.Latitude, c.Longitude));
             }
+            poly.FillColor = Color.FromHex(region.ARGBFill);
+            poly.StrokeColor = Color.FromHex(region.ARGBStroke);
+            poly.StrokeWidth = region.StrokeWidth;
             return poly;
         }
 

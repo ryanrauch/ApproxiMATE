@@ -17,7 +17,7 @@ namespace ApproxiMATE
 		public GoogleMapPage ()
 		{
 			InitializeComponent ();
-            MapMain.MapStyle = MapStyle.FromJson(Constants.GoogleMapStyleSilverLimited);
+            MapMain.MapStyle = MapStyle.FromJson(Constants.GoogleMapStyleSilverBlueWater);
 		}
         protected override async void OnAppearing()
         {

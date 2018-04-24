@@ -9,10 +9,12 @@ namespace ApproxiMATE.Helpers
     //      DO NOT CHANGE THIS FILE WITHOUT CHANGING ApproxiMATEwebApi.Helpers.CoordinateFilter.cs also
     public static class CoordinateFunctions
     {
-        public static readonly double BOXWIDTH = 0.01;
+        public static readonly double BOXWIDTH = 0.1;
         public static double LatitudeBound(double input)
         {
-            return Math.Floor(input * 100) / 100;
+            if(input > 0)
+                return Math.Floor(input * 10) / 10; // (input * 100) / 100;
+            return Math.Ceiling(input * 10) / 10;
         }
 
         public static double LongitudeBound(double input)
@@ -21,7 +23,18 @@ namespace ApproxiMATE.Helpers
         }
         public static Position GetCenterPositionFromBox(string box)
         {
-            return new Position(GetLatitudeFloorFromBox(box) + BOXWIDTH/2, GetLongitudeFloorFromBox(box) + BOXWIDTH/2);
+            double lat = GetLatitudeFloorFromBox(box);
+            if (lat < 0)
+                lat -= BOXWIDTH / 2;
+            else
+                lat += BOXWIDTH / 2;
+
+            double longitude = GetLongitudeFloorFromBox(box);
+            if (longitude < 0)
+                longitude -= BOXWIDTH / 2;
+            else
+                longitude += BOXWIDTH / 2;
+            return new Position(lat, longitude);
         }
         public static string GetBoundingBox(Position position)
         {
@@ -36,8 +49,8 @@ namespace ApproxiMATE.Helpers
         }
         public static string GetBoundingBoxNearby(string box, int stepsLatitude, int stepsLongitude)
         {
-            double latitude = GetLatitudeFloorFromBox(box) + (stepsLatitude * 0.01d);
-            double longitude = GetLongitudeFloorFromBox(box) + (stepsLongitude * 0.01d);
+            double latitude = GetLatitudeFloorFromBox(box) + (stepsLatitude * BOXWIDTH);
+            double longitude = GetLongitudeFloorFromBox(box) + (stepsLongitude * BOXWIDTH);
             return GetBoundingBox(latitude,longitude);
         }
         //Latitude x Longitude
@@ -51,7 +64,11 @@ namespace ApproxiMATE.Helpers
         }
         public static double GetLatitudeCeilingFromBox(string box)
         {
-            return GetLatitudeFloorFromBox(box) + 0.01;
+            double floor = GetLatitudeFloorFromBox(box);
+            if (floor < 0)
+                return floor - BOXWIDTH;
+            else
+                return floor + BOXWIDTH;
         }
         public static double GetLongitudeFloorFromBox(string box)
         {
@@ -61,7 +78,11 @@ namespace ApproxiMATE.Helpers
         }
         public static double GetLongitudeCeilingFromBox(string box)
         {
-            return GetLongitudeFloorFromBox(box) + 0.01;
+            double floor = GetLongitudeFloorFromBox(box);
+            if (floor < 0)
+                return floor - BOXWIDTH;
+            else
+                return floor + BOXWIDTH;
         }
     }
 }
