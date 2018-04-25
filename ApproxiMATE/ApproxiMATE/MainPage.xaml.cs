@@ -60,9 +60,18 @@ namespace ApproxiMATE
                 }
 
                 Hexagonal hex = new Hexagonal(position.Latitude, position.Longitude);
-                Polygon hexPoly = hex.HexagonalPolygon(hex.CenterLocation);
-                hexPoly.FillColor = Color.FromRgba(0, 255, 0, 128);
-                MapMain.Polygons.Add(hexPoly);
+                for(int col = -2; col < 3; ++col)
+                {
+                    for(int row = -2; row < 3; ++row)
+                    {
+                        Polygon hexPoly = hex.HexagonalPolygon(hex.CenterLocation, col, row);
+                        hexPoly.FillColor = Color.FromRgba(0, 255, 0, 128);
+                        MapMain.Polygons.Add(hexPoly);
+                    }
+                }
+                //Polygon hexPoly = hex.HexagonalPolygon(hex.CenterLocation);
+                //hexPoly.FillColor = Color.FromRgba(0, 255, 0, 128);
+                //MapMain.Polygons.Add(hexPoly);
                 //var northAustin = await App.approxiMATEService.GetZoneRegionPolygonsAsync(1);
                 //MapMain.Polygons.Add(GetPolygon(northAustin));
                 //var pflugerville = await App.approxiMATEService.GetZoneRegionPolygonsAsync(2);
