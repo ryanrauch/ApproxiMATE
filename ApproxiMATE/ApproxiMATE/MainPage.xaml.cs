@@ -59,6 +59,10 @@ namespace ApproxiMATE
                     MapMain.Polygons.Add(GetPolygon(poly, region));
                 }
 
+                Hexagonal hex = new Hexagonal(position.Latitude, position.Longitude);
+                Polygon hexPoly = hex.HexagonalPolygon(hex.CenterLocation);
+                hexPoly.FillColor = Color.FromRgba(0, 255, 0, 128);
+                MapMain.Polygons.Add(hexPoly);
                 //var northAustin = await App.approxiMATEService.GetZoneRegionPolygonsAsync(1);
                 //MapMain.Polygons.Add(GetPolygon(northAustin));
                 //var pflugerville = await App.approxiMATEService.GetZoneRegionPolygonsAsync(2);
