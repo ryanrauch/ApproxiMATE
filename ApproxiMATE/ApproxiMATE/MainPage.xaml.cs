@@ -54,13 +54,6 @@ namespace ApproxiMATE
                 //MapMain.Pins.Add(GetPin(box));
                 MapMain.Pins.Add(GetCurrentLocationPin(position));
 
-                var regions = await App.approxiMATEService.GetZoneRegionsAsync();
-                foreach(ZoneRegion region in regions)
-                {
-                    var poly = await App.approxiMATEService.GetZoneRegionPolygonsAsync(region.RegionId);
-                    MapMain.Polygons.Add(GetPolygon(poly, region));
-                }
-
                 Hexagonal hex = new Hexagonal(position.Latitude, position.Longitude);
                 HeatGradient heat = new HeatGradient();
                 int step = 0;
@@ -72,7 +65,7 @@ namespace ApproxiMATE
                         //hexPoly.FillColor = Color.FromRgba(0, 255, 0, 64);
                         hexPoly.FillColor = heat.SteppedColor(step);
                         if (step.Equals(heat.Min))
-                            hexPoly.StrokeColor = heat.SteppedColor(step + 1);
+                            hexPoly.StrokeColor = heat.SteppedColor(step + 1); // show border when transparent
                         else
                             hexPoly.StrokeColor = heat.SteppedColor(step);
                         ++step;
@@ -82,7 +75,15 @@ namespace ApproxiMATE
                         MapMain.Polygons.Add(hexPoly);
                     }
                 }
-                
+
+                var regions = await App.approxiMATEService.GetZoneRegionsAsync();
+                foreach (ZoneRegion region in regions)
+                {
+                    var poly = await App.approxiMATEService.GetZoneRegionPolygonsAsync(region.RegionId);
+                    MapMain.Polygons.Add(GetPolygon(poly, region));
+                }
+
+
                 //Polygon hexPoly = hex.HexagonalPolygon(hex.CenterLocation);
                 //hexPoly.FillColor = Color.FromRgba(0, 255, 0, 128);
                 //MapMain.Polygons.Add(hexPoly);
