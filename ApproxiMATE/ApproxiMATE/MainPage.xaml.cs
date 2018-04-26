@@ -14,7 +14,7 @@ namespace ApproxiMATE
 {
 	public partial class MainPage : ContentPage
 	{
-        private static readonly Distance INITIAL_DISTANCE = Distance.FromKilometers(5.0d);
+        private static readonly Distance INITIAL_DISTANCE = Distance.FromKilometers(6.0d);
 		public MainPage()
 		{
 			InitializeComponent();
@@ -38,6 +38,7 @@ namespace ApproxiMATE
             try
             {
                 MapMain.Polygons.Clear();
+                /*
                 string box = CoordinateFunctions.GetBoundingBox(position);
                 MapMain.Polygons.Add(GetPolygon(box, Color.FromRgba(128, 0, 0, 128), Color.Transparent));
                 for (int lat = -5; lat < 6; ++lat)
@@ -46,11 +47,12 @@ namespace ApproxiMATE
                     {
                         MapMain.Polygons.Add(GetPolygon(CoordinateFunctions.GetBoundingBoxNearby(box, lat, lon), Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
                     }
-                }
+                }*/
 
                 //MapMain.GroundOverlays.Add(GetGroundOverlay(box));
 
-                MapMain.Pins.Add(GetPin(box));
+                //MapMain.Pins.Add(GetPin(box));
+                MapMain.Pins.Add(GetCurrentLocationPin(position));
 
                 var regions = await App.approxiMATEService.GetZoneRegionsAsync();
                 foreach(ZoneRegion region in regions)
@@ -60,15 +62,27 @@ namespace ApproxiMATE
                 }
 
                 Hexagonal hex = new Hexagonal(position.Latitude, position.Longitude);
-                for(int col = -2; col < 3; ++col)
+                HeatGradient heat = new HeatGradient();
+                int step = 0;
+                for (int col = -2; col < 3; ++col)
                 {
                     for(int row = -2; row < 3; ++row)
                     {
                         Polygon hexPoly = hex.HexagonalPolygon(hex.CenterLocation, col, row);
-                        hexPoly.FillColor = Color.FromRgba(0, 255, 0, 128);
+                        //hexPoly.FillColor = Color.FromRgba(0, 255, 0, 64);
+                        hexPoly.FillColor = heat.SteppedColor(step);
+                        if (step.Equals(heat.Min))
+                            hexPoly.StrokeColor = heat.SteppedColor(step + 1);
+                        else
+                            hexPoly.StrokeColor = heat.SteppedColor(step);
+                        ++step;
+                        hexPoly.Tag = col.ToString() + "-" + row.ToString();
+                        hexPoly.IsClickable = true;
+                        hexPoly.Clicked += HexPoly_Clicked;
                         MapMain.Polygons.Add(hexPoly);
                     }
                 }
+                
                 //Polygon hexPoly = hex.HexagonalPolygon(hex.CenterLocation);
                 //hexPoly.FillColor = Color.FromRgba(0, 255, 0, 128);
                 //MapMain.Polygons.Add(hexPoly);
@@ -105,6 +119,11 @@ namespace ApproxiMATE
             }
         }
 
+        private void HexPoly_Clicked(object sender, EventArgs e)
+        {
+            string str = ((Polygon)sender).Tag.ToString();
+        }
+
         // This function assumes that the List of ZoneRegionPolygon's is already sorted by "Order" Column
         public Polygon GetPolygon(List<ZoneRegionPolygon> coordinates, ZoneRegion region)
         {
@@ -134,6 +153,14 @@ namespace ApproxiMATE
             poly.StrokeColor = stroke;
             poly.StrokeWidth = 1;
             return poly;
+        }
+        public Pin GetCurrentLocationPin(Position position)
+        {
+            var pin = new Pin();
+            pin.Position = position;
+            pin.Label = "My Location";
+            pin.Type = PinType.Generic;
+            return pin;
         }
         public Pin GetPin(string box)
         {

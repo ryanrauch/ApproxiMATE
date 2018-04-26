@@ -39,11 +39,11 @@ namespace ApproxiMATE.iOS
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName.Equals("VisibleRegion"))
+            /*if (e.PropertyName.Equals("VisibleRegion"))
             {
                 NativeMap.InfoTapped += InfoTappedFunction;
                 NativeMap.TappedMarker = TapperMarkerFunction;
-            }
+            }*/
         }
         private void InfoTappedFunction(object sender, GMSMarkerEventEventArgs e)
         {
