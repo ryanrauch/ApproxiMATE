@@ -54,6 +54,10 @@ namespace ApproxiMATE
                 //MapMain.Pins.Add(GetPin(box));
                 MapMain.Pins.Add(GetCurrentLocationPin(position));
 
+                App.Hexagonal = new HexagonalEquilateral(position.Latitude, position.Longitude);
+
+                /*
+                //original way to draw hexagons:
                 Hexagonal hex = new Hexagonal(position.Latitude, position.Longitude);
                 HeatGradient heat = new HeatGradient();
                 int step = 0;
@@ -75,9 +79,10 @@ namespace ApproxiMATE
                         MapMain.Polygons.Add(hexPoly);
                     }
                 }
+                */
 
                 var regions = await App.approxiMATEService.GetZoneRegionsAsync();
-                foreach (ZoneRegion region in regions)
+                foreach (ZoneRegion region in regions.Where(r=>r.Type.Equals((int)Region)
                 {
                     var poly = await App.approxiMATEService.GetZoneRegionPolygonsAsync(region.RegionId);
                     MapMain.Polygons.Add(GetPolygon(poly, region));

@@ -6,7 +6,7 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace ApproxiMATE.Helpers
 {
-    public class Hexagonal
+    public class Hexagonal : IHexagonal
     {
         private const double HEIGHT = 0.1;
         private const double WIDTH = 0.1;
@@ -17,23 +17,11 @@ namespace ApproxiMATE.Helpers
         private const double EVEN_LATITUDE_REPEAT = HEIGHT;
         private double _latitude { get; set; }
         private double _longitude { get; set; }
-        public Position CenterLocation
-        {
-            get
-            {
-                return new Position(Math.Round(_latitude, 1), 
-                                    Math.Floor(_longitude / EVEN_LONGITUDE_REPEAT) * EVEN_LONGITUDE_REPEAT);
-            }
-        }
-        public Position ExactLocation
-        {
-            get
-            {
-                return new Position(_latitude, _longitude);
-            }
-        }
-        public Hexagonal()
-        { }
+
+        public Position CenterLocation => new Position(Math.Round(_latitude, 1), 
+                                                       Math.Floor(_longitude / EVEN_LONGITUDE_REPEAT) * EVEN_LONGITUDE_REPEAT);
+        public Position ExactLocation => new Position(_latitude, _longitude);
+
         public Hexagonal(double latitude, double longitude)
         {
             _latitude = latitude;
@@ -86,9 +74,8 @@ namespace ApproxiMATE.Helpers
             if(column % 2 == 0)
                 return HexagonalPolygon(new Position(center.Latitude + row * HEIGHT, 
                                                      center.Longitude + column * WIDTH));
-            else
-                return HexagonalPolygon(new Position(center.Latitude + (row * HEIGHT) - HALF_HEIGHT,
-                                                     center.Longitude + column * WIDTH));
+            return HexagonalPolygon(new Position(center.Latitude + (row * HEIGHT) - HALF_HEIGHT,
+                                                 center.Longitude + column * WIDTH));
         }
     }
 }
