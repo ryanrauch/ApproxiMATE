@@ -4,12 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApproxiMATE.Android", "ApproxiMATE\ApproxiMATE.Android\ApproxiMATE.Android.csproj", "{4280D180-7AD9-4EF5-A12E-FA1B482E5727}"
+	ProjectSection(ProjectDependencies) = postProject
+		{70A679C5-8B98-423E-ADBA-1210E2389B1A} = {70A679C5-8B98-423E-ADBA-1210E2389B1A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApproxiMATE.iOS", "ApproxiMATE\ApproxiMATE.iOS\ApproxiMATE.iOS.csproj", "{7D4EFE8C-9601-4472-B192-31FB79945C4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApproxiMATE.UWP", "ApproxiMATE\ApproxiMATE.UWP\ApproxiMATE.UWP.csproj", "{1A923DBA-4D31-4530-96A3-4558F294EB60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApproxiMATE", "ApproxiMATE\ApproxiMATE\ApproxiMATE.csproj", "{70A679C5-8B98-423E-ADBA-1210E2389B1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApproxiMATE", "ApproxiMATE\ApproxiMATE\ApproxiMATE.csproj", "{70A679C5-8B98-423E-ADBA-1210E2389B1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

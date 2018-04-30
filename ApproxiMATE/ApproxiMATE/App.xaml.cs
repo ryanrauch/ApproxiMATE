@@ -24,6 +24,7 @@ namespace ApproxiMATE
         public static ApproxiMATEwebApiService approxiMATEService { get; set; }      //TODO: convert back to interface
         public static AccountServiceXamarinAuth AccountService { get; set; }    //TODO: convert to interface
         public static IHexagonal Hexagonal { get; set; }
+        public static IHeatGradient HeatGradient { get; set; }
 
 		public App ()
 		{

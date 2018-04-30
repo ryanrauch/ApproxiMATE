@@ -61,6 +61,9 @@ namespace ApproxiMATE.Helpers
             //poly.Positions.Add(new Position(center.Latitude - HALF_HEIGHT, center.Longitude + QUARTER_WIDTH));
             //poly.Positions.Add(new Position(center.Latitude - HALF_HEIGHT, center.Longitude - QUARTER_WIDTH));
             //poly.Positions.Add(new Position(center.Latitude, center.Longitude - HALF_WIDTH));
+
+            //this extends the polygon an extra 1/4 width to the right
+            //the above is probably correct, if center is offset correctly when calling this function.
             poly.Positions.Add(new Position(center.Latitude + HALF_HEIGHT, center.Longitude - QUARTER_WIDTH)); //starts at top-left
             poly.Positions.Add(new Position(center.Latitude + HALF_HEIGHT, center.Longitude + HALF_WIDTH));
             poly.Positions.Add(new Position(center.Latitude, center.Longitude + HALF_WIDTH + QUARTER_WIDTH)); //extend extra 1/4width

@@ -3,16 +3,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using ApproxiMATE.Helpers;
-using ApproxiMATE.Views;
 
 namespace ApproxiMATE
 {
-	public partial class MainPage : ContentPage
+    public partial class MainPage : ContentPage
 	{
         private static readonly Distance INITIAL_DISTANCE = Distance.FromKilometers(6.0d);
 		public MainPage()
@@ -55,7 +52,29 @@ namespace ApproxiMATE
                 MapMain.Pins.Add(GetCurrentLocationPin(position));
 
                 App.Hexagonal = new HexagonalEquilateral(position.Latitude, position.Longitude);
-
+                if (App.HeatGradient == null)
+                    App.HeatGradient = new HeatGradient();
+                int step = 0;
+                MapMain.Polygons.Clear();
+                Position centeredPosition = App.Hexagonal.CenterLocation;
+                MapMain.CameraIdled += MapMain_CameraIdled;
+                for(int col = -2; col < 3; ++col)
+                {
+                    for(int row = -2; row < 3; ++row)
+                    {
+                        Polygon hexPoly = App.Hexagonal.HexagonalPolygon(centeredPosition, col, row);
+                        hexPoly.FillColor = App.HeatGradient.SteppedColor(step);
+                        if (step.Equals(App.HeatGradient.Min))
+                            hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step + 1);
+                        else
+                            hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step);
+                        ++step;
+                        hexPoly.Tag = col.ToString() + Constants.BoundingBoxDelim + row.ToString();
+                        hexPoly.IsClickable = true;
+                        hexPoly.Clicked += HexPoly_Clicked;
+                        MapMain.Polygons.Add(hexPoly);
+                    }
+                }
                 /*
                 //original way to draw hexagons:
                 Hexagonal hex = new Hexagonal(position.Latitude, position.Longitude);
@@ -82,7 +101,7 @@ namespace ApproxiMATE
                 */
 
                 var regions = await App.approxiMATEService.GetZoneRegionsAsync();
-                foreach (ZoneRegion region in regions.Where(r=>r.Type.Equals((int)Region)
+                foreach (ZoneRegion region in regions.Where(r=>r.Type.Equals((int)RegionType.SocialDistrict)))
                 {
                     var poly = await App.approxiMATEService.GetZoneRegionPolygonsAsync(region.RegionId);
                     MapMain.Polygons.Add(GetPolygon(poly, region));
@@ -123,6 +142,14 @@ namespace ApproxiMATE
             {
                 await DisplayAlert(ex.Message, ex.StackTrace, "OK");
             }
+        }
+
+        private void MapMain_CameraIdled(object sender, CameraIdledEventArgs e)
+        {
+            double metersPerPixel = 156543.03392 * Math.Cos(e.Position.Target.Latitude * Math.PI / 180) / Math.Pow(2, e.Position.Zoom);
+            //double zoomWidth = App.ScreenWidth * metersPerPixel / 1000;
+            double zoomWidth = metersPerPixel / 10; //1000meters divided by 100px width
+            LabelScale.Text = zoomWidth.ToString() + "km";
         }
 
         private void HexPoly_Clicked(object sender, EventArgs e)

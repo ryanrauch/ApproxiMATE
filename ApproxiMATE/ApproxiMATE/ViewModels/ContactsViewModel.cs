@@ -1,4 +1,5 @@
-﻿using ApproxiMATE.Models;
+﻿using ApproxiMATE.Helpers;
+using ApproxiMATE.Models;
 using Plugin.ContactService.Shared;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;

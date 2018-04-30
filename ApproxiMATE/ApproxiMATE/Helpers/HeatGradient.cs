@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace ApproxiMATE.Helpers
 {
-    public class HeatGradient
+    public class HeatGradient : IHeatGradient
     {
         public List<Color> Colors { get; set; }
         public int Min { get; set; }

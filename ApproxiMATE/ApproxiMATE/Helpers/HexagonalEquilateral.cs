@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Xamarin.Forms.GoogleMaps;
 
@@ -11,6 +12,7 @@ namespace ApproxiMATE.Helpers
         // http:--//mathcentral.uregina.ca/QQ/database/QQ.09.07/h/martin4.html
         private const double RADIUS = 0.05;
         private const double HALFRADIUS = 0.025;
+        private const double WIDTH = 0.075;
         private readonly double _height = Math.Sqrt(3) * 0.025;
         private readonly double _halfHeight = Math.Sqrt(3) * 0.0125;
 
@@ -24,6 +26,7 @@ namespace ApproxiMATE.Helpers
 
         public Polygon HexagonalPolygon(Position center)
         {
+            String debugInfo = String.Format("Lat: {0}\nLon: {1}\n", center.Latitude, center.Longitude);
             double lat_top = center.Latitude + _halfHeight;
             double lat_bottom = center.Latitude - _halfHeight;
             double lon_left = center.Longitude - HALFRADIUS;
@@ -42,8 +45,10 @@ namespace ApproxiMATE.Helpers
         public Polygon HexagonalPolygon(Position center, int column, int row)
         {
             if (column % 2 == 0)
-                return HexagonalPolygon(new Position(center.Latitude, center.Longitude));
-            return HexagonalPolygon(new Position(center.Latitude, center.Longitude));
+                return HexagonalPolygon(new Position(center.Latitude + row * _height, 
+                                                     center.Longitude + column * WIDTH));
+            return HexagonalPolygon(new Position(center.Latitude + (row * _height) - _halfHeight, 
+                                                 center.Longitude + column * WIDTH));
         }
 
         public HexagonalEquilateral(double latitude, double longitude)
