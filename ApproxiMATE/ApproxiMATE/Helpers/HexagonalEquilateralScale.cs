@@ -54,8 +54,8 @@ namespace ApproxiMATE.Helpers
             {
                 double lat_top = center.Latitude + _flatHalfRadius;
                 double lat_bottom = center.Latitude - _flatHalfRadius;
-                double lon_left = center.Longitude - _flatHalfHeight;
-                double lon_right = center.Longitude + _flatHalfHeight;
+                double lon_left = center.Longitude - _flatWidth/2;
+                double lon_right = center.Longitude + _flatWidth/2;
                 // positions start with bottom-left, rotating clockwise
                 Polygon poly = new Polygon();
                 poly.Positions.Add(new Position(lat_bottom, lon_left));
@@ -75,6 +75,7 @@ namespace ApproxiMATE.Helpers
                 if (column % 2 == 0)
                     return HexagonalPolygon(new Position(center.Latitude + row * _flatHeight,
                                                          center.Longitude + column * _flatWidth));
+
                 return HexagonalPolygon(new Position(center.Latitude + (row * _flatHeight) - _flatHalfHeight,
                                                      center.Longitude + column * _flatWidth));
             }
@@ -83,9 +84,10 @@ namespace ApproxiMATE.Helpers
                 //pointy-topped
                 if (row % 2 == 0)
                     return HexagonalPolygon(new Position(center.Latitude + row * _flatWidth,
-                                                         center.Longitude + column * _flatHeight));
+                                                         center.Longitude + column * _flatWidth));
+
                 return HexagonalPolygon(new Position(center.Latitude + row * _flatWidth,
-                                                     center.Longitude + column * _flatHeight - _flatHalfHeight));
+                                                     center.Longitude + column * _flatWidth - _flatWidth/2));
             }
         }
 

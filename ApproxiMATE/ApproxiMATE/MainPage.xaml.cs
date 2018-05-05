@@ -36,18 +36,6 @@ namespace ApproxiMATE
             try
             {
                 MapMain.Polygons.Clear();
-                /*
-                string box = CoordinateFunctions.GetBoundingBox(position);
-                MapMain.Polygons.Add(GetPolygon(box, Color.FromRgba(128, 0, 0, 128), Color.Transparent));
-                for (int lat = -5; lat < 6; ++lat)
-                {
-                    for(int lon = -5; lon < 6; ++lon)
-                    {
-                        MapMain.Polygons.Add(GetPolygon(CoordinateFunctions.GetBoundingBoxNearby(box, lat, lon), Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
-                    }
-                }*/
-
-                //MapMain.GroundOverlays.Add(GetGroundOverlay(box));
 
                 //MapMain.Pins.Add(GetPin(box));
                 MapMain.Pins.Add(GetCurrentLocationPin(position));
@@ -60,48 +48,8 @@ namespace ApproxiMATE
                 //MapMain.Polygons.Clear();
                 //Position centeredPosition = App.Hexagonal.CenterLocation;
                 MapMain.CameraIdled += MapMain_CameraIdled;
+
                 DrawHexagons(App.Hexagonal.CenterLocation, 1);
-                //for(int col = -2; col < 3; ++col)
-                //{
-                //    for(int row = -2; row < 3; ++row)
-                //    {
-                //        Polygon hexPoly = App.Hexagonal.HexagonalPolygon(centeredPosition, col, row);
-                //        hexPoly.FillColor = App.HeatGradient.SteppedColor(step);
-                //        if (step.Equals(App.HeatGradient.Min))
-                //            hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step + 1);
-                //        else
-                //            hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step);
-                //        ++step;
-                //        hexPoly.Tag = col.ToString() + Constants.BoundingBoxDelim + row.ToString();
-                //        hexPoly.IsClickable = true;
-                //        hexPoly.Clicked += HexPoly_Clicked;
-                //        MapMain.Polygons.Add(hexPoly);
-                //    }
-                //}
-                /*
-                //original way to draw hexagons:
-                Hexagonal hex = new Hexagonal(position.Latitude, position.Longitude);
-                HeatGradient heat = new HeatGradient();
-                int step = 0;
-                for (int col = -2; col < 3; ++col)
-                {
-                    for(int row = -2; row < 3; ++row)
-                    {
-                        Polygon hexPoly = hex.HexagonalPolygon(hex.CenterLocation, col, row);
-                        //hexPoly.FillColor = Color.FromRgba(0, 255, 0, 64);
-                        hexPoly.FillColor = heat.SteppedColor(step);
-                        if (step.Equals(heat.Min))
-                            hexPoly.StrokeColor = heat.SteppedColor(step + 1); // show border when transparent
-                        else
-                            hexPoly.StrokeColor = heat.SteppedColor(step);
-                        ++step;
-                        hexPoly.Tag = col.ToString() + "-" + row.ToString();
-                        hexPoly.IsClickable = true;
-                        hexPoly.Clicked += HexPoly_Clicked;
-                        MapMain.Polygons.Add(hexPoly);
-                    }
-                }
-                */
 
                 var regions = await App.approxiMATEService.GetZoneRegionsAsync();
                 foreach (ZoneRegion region in regions.Where(r=>r.Type.Equals((int)RegionType.SocialDistrict)))
@@ -109,37 +57,6 @@ namespace ApproxiMATE
                     var poly = await App.approxiMATEService.GetZoneRegionPolygonsAsync(region.RegionId);
                     MapMain.Polygons.Add(GetPolygon(poly, region));
                 }
-
-
-                //Polygon hexPoly = hex.HexagonalPolygon(hex.CenterLocation);
-                //hexPoly.FillColor = Color.FromRgba(0, 255, 0, 128);
-                //MapMain.Polygons.Add(hexPoly);
-                //var northAustin = await App.approxiMATEService.GetZoneRegionPolygonsAsync(1);
-                //MapMain.Polygons.Add(GetPolygon(northAustin));
-                //var pflugerville = await App.approxiMATEService.GetZoneRegionPolygonsAsync(2);
-                //MapMain.Polygons.Add(GetPolygon(pflugerville));
-
-                /*
-                string box = CoordinateFunctions.GetBoundingBox(position);
-                MapMain.Polygons.Add(GetPolygon(box, Color.FromRgba(128, 0, 0, 128), Color.Transparent));
-                string boxN = CoordinateFunctions.GetBoundingBoxNearby(box, 1, 0);
-                MapMain.Polygons.Add(GetPolygon(boxN, Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
-                string boxNE = CoordinateFunctions.GetBoundingBoxNearby(box, 1, -1);
-                MapMain.Polygons.Add(GetPolygon(boxNE, Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
-                string boxE = CoordinateFunctions.GetBoundingBoxNearby(box, 0, -1);
-                MapMain.Polygons.Add(GetPolygon(boxE, Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
-                string boxSE = CoordinateFunctions.GetBoundingBoxNearby(box, -1, -1);
-                MapMain.Polygons.Add(GetPolygon(boxSE, Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
-                string boxS = CoordinateFunctions.GetBoundingBoxNearby(box, -1, 0);
-                MapMain.Polygons.Add(GetPolygon(boxS, Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
-                string boxSW = CoordinateFunctions.GetBoundingBoxNearby(box, -1, 1);
-                MapMain.Polygons.Add(GetPolygon(boxSW, Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
-                string boxW = CoordinateFunctions.GetBoundingBoxNearby(box, 0, 1);
-                MapMain.Polygons.Add(GetPolygon(boxW, Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
-                string boxNW = CoordinateFunctions.GetBoundingBoxNearby(box, 1, 1);
-                MapMain.Polygons.Add(GetPolygon(boxNW, Color.Transparent, Color.FromRgba(128, 0, 0, 128)));
-                //MapMain.GroundOverlays.Add(GetGroundOverlay(box));
-                */
             }
             catch (Exception ex)
             {
@@ -162,7 +79,7 @@ namespace ApproxiMATE
 
         private void DrawHexagons(Position center, int layer)
         {
-            int step = (layer-1) * 10;
+            int step = ((layer-1) * 10) % 15;
             // possibly detach clicked event before clearing?
             //MapMain.Polygons.Clear();
             if (App.Hexagonal is HexagonalEquilateralScale)
