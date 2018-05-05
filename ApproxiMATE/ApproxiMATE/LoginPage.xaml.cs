@@ -82,6 +82,7 @@ namespace ApproxiMATE
         {
             await Navigation.PushAsync(new SignUpPage());
         }
+
         private Boolean CheckVersionNumber()
         {
             String dbversion = String.Format("{0}.{1}.{2}", App.AppOptions.Version,
