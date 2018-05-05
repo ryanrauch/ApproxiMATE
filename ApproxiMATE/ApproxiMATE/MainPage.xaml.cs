@@ -48,8 +48,7 @@ namespace ApproxiMATE
                 //MapMain.Polygons.Clear();
                 //Position centeredPosition = App.Hexagonal.CenterLocation;
                 MapMain.CameraIdled += MapMain_CameraIdled;
-
-                DrawHexagons(App.Hexagonal.CenterLocation, 1);
+                //DrawHexagons(App.Hexagonal.CenterLocation, 1);
 
                 var regions = await App.approxiMATEService.GetZoneRegionsAsync();
                 foreach (ZoneRegion region in regions.Where(r=>r.Type.Equals((int)RegionType.SocialDistrict)))
@@ -72,7 +71,10 @@ namespace ApproxiMATE
             double zoomWidth = metersPerPixel / 10; //1000meters divided by 100px width
             LabelScale.Text = zoomWidth.ToString("F2") + "km " + e.Position.Zoom.ToString("F2");
             MapMain.Polygons.Clear();
-            for(int i = 0; i < 7; ++i)
+            DrawHexagons(App.Hexagonal.CenterLocation, CalculateLayerFromCameraPositionZoom(e.Position.Zoom));
+            
+            return;
+            for (int i = 0; i < 8; ++i)
             {
                 DrawHexagons(App.Hexagonal.CenterLocation, (int)Math.Pow(3, i));
             }
@@ -81,6 +83,24 @@ namespace ApproxiMATE
             //DrawHexagons(App.Hexagonal.CenterLocation, 3);
             //DrawHexagons(App.Hexagonal.CenterLocation, 9);
             //DrawHexagons(App.Hexagonal.CenterLocation, 27);
+        }
+        private int CalculateLayerFromCameraPositionZoom(double zoom)
+        {
+            if (zoom > 13)
+                return 1;
+            else if (zoom > 12.25)
+                return 3;
+            else if (zoom > 11)
+                return 9;
+            else if (zoom > 9.25)
+                return 27;
+            else if (zoom > 8)
+                return 81;
+            else if (zoom > 6)
+                return 243;
+            else if (zoom > 4.5)
+                return 729;
+            return 2187;
         }
 
         private void DrawHexagons(Position center, int layer)
@@ -114,6 +134,7 @@ namespace ApproxiMATE
         private void HexPoly_Clicked(object sender, EventArgs e)
         {
             string str = ((Polygon)sender).Tag.ToString();
+            LabelScale.Text = str;
         }
 
         // This function assumes that the List of ZoneRegionPolygon's is already sorted by "Order" Column

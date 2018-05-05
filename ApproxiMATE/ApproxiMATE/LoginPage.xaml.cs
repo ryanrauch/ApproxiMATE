@@ -12,9 +12,14 @@ namespace ApproxiMATE
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LoginPage : ContentPage
 	{
+        public String VersionNumber { get; set; }
+
 		public LoginPage ()
 		{
 			InitializeComponent();
+            VersionNumber = DependencyService.Get<IAppVersionProvider>().Version;
+            String loadingText = String.Format("Checking User Credentials [v{0}]", VersionNumber);
+            LabelLoadingCredentials.Text = loadingText;
 		}
 
         public async Task<Boolean> LoginProcess(string un, string pw)
@@ -77,6 +82,33 @@ namespace ApproxiMATE
         {
             await Navigation.PushAsync(new SignUpPage());
         }
+        private Boolean CheckVersionNumber()
+        {
+            String dbversion = String.Format("{0}.{1}.{2}", App.AppOptions.Version,
+                                                            App.AppOptions.VersionMajor,
+                                                            App.AppOptions.VersionMinor);
+            if(VersionNumber.Equals(dbversion))
+                return true;
+            if (VersionNumber.Split('.').Count().Equals(3))
+            {
+                int va = Int32.Parse(VersionNumber.Split('.')[0]),
+                    vb = Int32.Parse(VersionNumber.Split('.')[1]),
+                    vc = Int32.Parse(VersionNumber.Split('.')[2]);
+                if (va > App.AppOptions.Version)
+                    return true;
+                if (va < App.AppOptions.Version)
+                    return false;
+                if (vb > App.AppOptions.Version)
+                    return true;
+                if (vb < App.AppOptions.Version)
+                    return false;
+                if (vc > App.AppOptions.Version)
+                    return true;
+                if (vc < App.AppOptions.Version)
+                    return false;
+            }
+            return false;
+        }
 
         public async void OnLoginButtonClicked(object sender, EventArgs e)
         {
@@ -87,6 +119,12 @@ namespace ApproxiMATE
             {
                 var options = await App.approxiMATEService.GetApplicationOptionsAsync();
                 App.AppOptions = options.OrderByDescending(x => x.OptionsDate).FirstOrDefault();
+                if(!CheckVersionNumber())
+                {
+                    Navigation.InsertPageBefore(new IssuePage(), this);
+                    await Navigation.PopAsync();
+                    return;
+                }
                 if (App.AppUser.termsAndConditionsDate == null 
                     || App.AppUser.termsAndConditionsDate < App.AppOptions.OptionsDate)
                 {

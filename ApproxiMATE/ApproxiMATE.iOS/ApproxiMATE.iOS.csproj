@@ -99,6 +99,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CustomRenderers\CustomGoogleMapRenderer.cs" />
+    <Compile Include="DependencyServices\AppVersionProvider.cs" />
     <Compile Include="NoLongerUsed\BindableMapDelegate.cs" />
     <Compile Include="NoLongerUsed\BindableMapRenderer.cs" />
     <Compile Include="NoLongerUsed\CustomMapRenderer.cs" />
