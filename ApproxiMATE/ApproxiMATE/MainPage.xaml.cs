@@ -24,6 +24,7 @@ namespace ApproxiMATE
             var position = await Utilities.GetCurrentGeolocationGooglePositionAsync();
 #if DEBUG
             position = new Position(30.3993258177538, -97.723581124856);
+            //position = new Position(0.00, 0.00);
 #endif
             // pin for exact user location
             //MapMain.Pins.Add(new Pin
@@ -51,30 +52,32 @@ namespace ApproxiMATE
                 //MapMain.Pins.Add(GetPin(box));
                 MapMain.Pins.Add(GetCurrentLocationPin(position));
 
-                App.Hexagonal = new HexagonalEquilateral(position.Latitude, position.Longitude);
+                //App.Hexagonal = new HexagonalEquilateral(position.Latitude, position.Longitude);
+                App.Hexagonal = new HexagonalEquilateralScale(position.Latitude, position.Longitude);
                 if (App.HeatGradient == null)
                     App.HeatGradient = new HeatGradient();
-                int step = 0;
-                MapMain.Polygons.Clear();
-                Position centeredPosition = App.Hexagonal.CenterLocation;
+                //int step = 0;
+                //MapMain.Polygons.Clear();
+                //Position centeredPosition = App.Hexagonal.CenterLocation;
                 MapMain.CameraIdled += MapMain_CameraIdled;
-                for(int col = -2; col < 3; ++col)
-                {
-                    for(int row = -2; row < 3; ++row)
-                    {
-                        Polygon hexPoly = App.Hexagonal.HexagonalPolygon(centeredPosition, col, row);
-                        hexPoly.FillColor = App.HeatGradient.SteppedColor(step);
-                        if (step.Equals(App.HeatGradient.Min))
-                            hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step + 1);
-                        else
-                            hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step);
-                        ++step;
-                        hexPoly.Tag = col.ToString() + Constants.BoundingBoxDelim + row.ToString();
-                        hexPoly.IsClickable = true;
-                        hexPoly.Clicked += HexPoly_Clicked;
-                        MapMain.Polygons.Add(hexPoly);
-                    }
-                }
+                DrawHexagons(App.Hexagonal.CenterLocation, 1);
+                //for(int col = -2; col < 3; ++col)
+                //{
+                //    for(int row = -2; row < 3; ++row)
+                //    {
+                //        Polygon hexPoly = App.Hexagonal.HexagonalPolygon(centeredPosition, col, row);
+                //        hexPoly.FillColor = App.HeatGradient.SteppedColor(step);
+                //        if (step.Equals(App.HeatGradient.Min))
+                //            hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step + 1);
+                //        else
+                //            hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step);
+                //        ++step;
+                //        hexPoly.Tag = col.ToString() + Constants.BoundingBoxDelim + row.ToString();
+                //        hexPoly.IsClickable = true;
+                //        hexPoly.Clicked += HexPoly_Clicked;
+                //        MapMain.Polygons.Add(hexPoly);
+                //    }
+                //}
                 /*
                 //original way to draw hexagons:
                 Hexagonal hex = new Hexagonal(position.Latitude, position.Longitude);
@@ -148,8 +151,42 @@ namespace ApproxiMATE
         {
             double metersPerPixel = 156543.03392 * Math.Cos(e.Position.Target.Latitude * Math.PI / 180) / Math.Pow(2, e.Position.Zoom);
             //double zoomWidth = App.ScreenWidth * metersPerPixel / 1000;
+            
             double zoomWidth = metersPerPixel / 10; //1000meters divided by 100px width
-            LabelScale.Text = zoomWidth.ToString() + "km";
+            LabelScale.Text = zoomWidth.ToString("F2") + "km " + e.Position.Zoom.ToString("F2");
+            MapMain.Polygons.Clear();
+            DrawHexagons(App.Hexagonal.CenterLocation, 1);
+            DrawHexagons(App.Hexagonal.CenterLocation, 2);
+            //DrawHexagons(App.Hexagonal.CenterLocation, 3);
+        }
+
+        private void DrawHexagons(Position center, int layer)
+        {
+            int step = (layer-1) * 10;
+            // possibly detach clicked event before clearing?
+            //MapMain.Polygons.Clear();
+            if (App.Hexagonal is HexagonalEquilateralScale)
+            {
+                //((HexagonalEquilateralScale)App.Hexagonal).SetZoomScale(scale);
+                ((HexagonalEquilateralScale)App.Hexagonal).SetLayer(layer);
+            }
+            for (int col = -10; col < 11; ++col)
+            {
+                for (int row = -10; row < 11; ++row)
+                {
+                    Polygon hexPoly = App.Hexagonal.HexagonalPolygon(center, col, row);
+                    hexPoly.FillColor = App.HeatGradient.SteppedColor(0);
+                    if (step.Equals(App.HeatGradient.Min))
+                        hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step + 1);
+                    else
+                        hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step);
+                    //step = step + 1 % App.HeatGradient.Max;
+                    hexPoly.Tag = col.ToString() + Constants.BoundingBoxDelim + row.ToString();
+                    hexPoly.IsClickable = true;
+                    hexPoly.Clicked += HexPoly_Clicked;
+                    MapMain.Polygons.Add(hexPoly);
+                }
+            }
         }
 
         private void HexPoly_Clicked(object sender, EventArgs e)

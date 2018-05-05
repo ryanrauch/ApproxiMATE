@@ -13,8 +13,8 @@ namespace ApproxiMATE.Helpers
         private const double RADIUS = 0.05;
         private const double HALFRADIUS = 0.025;
         private const double WIDTH = 0.075;
-        private readonly double _height = Math.Sqrt(3) * 0.025;
-        private readonly double _halfHeight = Math.Sqrt(3) * 0.0125;
+        private readonly double _height = Math.Sqrt(3) * RADIUS;
+        private readonly double _halfHeight = Math.Sqrt(3) * HALFRADIUS;
 
         private double _latitude { get; set; }
         private double _longitude { get; set; }
