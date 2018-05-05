@@ -72,24 +72,29 @@ namespace ApproxiMATE
             double zoomWidth = metersPerPixel / 10; //1000meters divided by 100px width
             LabelScale.Text = zoomWidth.ToString("F2") + "km " + e.Position.Zoom.ToString("F2");
             MapMain.Polygons.Clear();
-            DrawHexagons(App.Hexagonal.CenterLocation, 1);
-            DrawHexagons(App.Hexagonal.CenterLocation, 2);
+            for(int i = 0; i < 7; ++i)
+            {
+                DrawHexagons(App.Hexagonal.CenterLocation, (int)Math.Pow(3, i));
+            }
+            //DrawHexagons(App.Hexagonal.CenterLocation, 1);
+            ////DrawHexagons(App.Hexagonal.CenterLocation, 2);
             //DrawHexagons(App.Hexagonal.CenterLocation, 3);
+            //DrawHexagons(App.Hexagonal.CenterLocation, 9);
+            //DrawHexagons(App.Hexagonal.CenterLocation, 27);
         }
 
         private void DrawHexagons(Position center, int layer)
         {
-            int step = ((layer-1) * 10) % 15;
+            int step = (layer * 3) % 15;
             // possibly detach clicked event before clearing?
             //MapMain.Polygons.Clear();
             if (App.Hexagonal is HexagonalEquilateralScale)
             {
-                //((HexagonalEquilateralScale)App.Hexagonal).SetZoomScale(scale);
                 ((HexagonalEquilateralScale)App.Hexagonal).SetLayer(layer);
             }
-            for (int col = -10; col < 11; ++col)
+            for (int col = -6; col < 7; ++col)
             {
-                for (int row = -10; row < 11; ++row)
+                for (int row = -6; row < 7; ++row)
                 {
                     Polygon hexPoly = App.Hexagonal.HexagonalPolygon(center, col, row);
                     hexPoly.FillColor = App.HeatGradient.SteppedColor(0);
@@ -98,7 +103,7 @@ namespace ApproxiMATE
                     else
                         hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step);
                     //step = step + 1 % App.HeatGradient.Max;
-                    hexPoly.Tag = col.ToString() + Constants.BoundingBoxDelim + row.ToString();
+                    hexPoly.Tag = layer.ToString() + Constants.BoundingBoxDelim + col.ToString() + Constants.BoundingBoxDelim + row.ToString();
                     hexPoly.IsClickable = true;
                     hexPoly.Clicked += HexPoly_Clicked;
                     MapMain.Polygons.Add(hexPoly);
