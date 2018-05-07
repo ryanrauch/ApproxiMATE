@@ -6,7 +6,7 @@
              x:Class="ApproxiMATE.MainPage">
     <ContentPage.ToolbarItems>
         <!--<ToolbarItem Text="GoogleMap" Clicked="OnGoogleMapClicked" />-->
-        <ToolbarItem Text="DebugMap" Clicked="OnDebugMapButtonClicked" />
+        <!--<ToolbarItem Text="DebugMap" Clicked="OnDebugMapButtonClicked" />-->
         <ToolbarItem Text="Debug" Clicked="OnDebugButtonClicked" />
         <ToolbarItem Text="Contacts" Clicked="OnContactsButtonClicked"/>
         <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" />

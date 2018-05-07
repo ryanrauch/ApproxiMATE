@@ -1,5 +1,6 @@
 ﻿using ApproxiMATE.Helpers;
 using ApproxiMATE.Models;
+using ApproxiMATE.ViewModels;
 using Plugin.ContactService.Shared;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
@@ -14,12 +15,13 @@ using Xamarin.Forms;
 
 namespace ApproxiMATE
 {
-    public class ContactsViewModel : INotifyPropertyChanged
+    public class ContactsViewModel : BaseViewModel
     {
         public ContactsViewModel()
         {
+            //Navigation = navigation;
             PhoneContacts = new ObservableCollection<PhoneContact>();
-            AcquirePhoneContacts(true).ConfigureAwait(false);
+            AcquirePhoneContacts(true).ConfigureAwait(true);
         }
 
         // TODO: make this more efficient
@@ -99,6 +101,15 @@ namespace ApproxiMATE
                     UserId = App.AppUser.id
                 };
                 await AcquireUsersFromPhoneNumbers(upn);
+            }
+            else
+            {
+                throw new InvalidOperationException("contacts permission is not granted");
+                //await Navigation.PopAsync();
+                //await Navigation.PushAsync(new IssuePage("Please provide permission to access contacts."));
+                //await App.Current.MainPage.Navigation.PushAsync(new IssuePage("Please provide permission to access contacts."));
+                //await Navigation.PushAsync(new IssuePage("Please provide permission to access contacts."));
+                //await Navigation.PopAsync();
             }
         }
         public string RemovePhoneNumberCharacters(string input)
@@ -219,10 +230,10 @@ namespace ApproxiMATE
                 OnPropertyChanged("PhoneContacts");
             }
         }
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //private void OnPropertyChanged(string propertyName)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
     }
 }

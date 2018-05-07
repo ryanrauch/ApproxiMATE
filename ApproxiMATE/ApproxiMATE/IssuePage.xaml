@@ -4,9 +4,11 @@
              x:Class="ApproxiMATE.IssuePage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="{Binding Path=Issue}"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="CenterAndExpand"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

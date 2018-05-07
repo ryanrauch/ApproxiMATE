@@ -1,6 +1,7 @@
 ﻿using ApproxiMATE.Helpers;
 using ApproxiMATE.Models;
 using ApproxiMATE.Services;
+using Autofac;
 using Plugin.Geolocator;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
@@ -16,6 +17,7 @@ namespace ApproxiMATE
 {
     public partial class App : Application
     {
+        public static IContainer Container { get; set; } //autofac
         public static bool IsUserLoggedIn { get; set; }
         public static ApplicationUser AppUser { get; set; }
         public static ApplicationOption AppOptions { get; set; }
@@ -26,9 +28,18 @@ namespace ApproxiMATE
         public static IHexagonal Hexagonal { get; set; }
         public static IHeatGradient HeatGradient { get; set; }
 
+        public static void InitializeAutofac()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterType<HexagonalEquilateralScale>().As<IHexagonal>();
+            builder.RegisterType<HeatGradient>().As<IHeatGradient>().SingleInstance();
+            Container = builder.Build();
+        }
+
 		public App ()
 		{
 			InitializeComponent();
+            InitializeAutofac();
             approxiMATEService = new ApproxiMATEwebApiService();
             AccountService = new AccountServiceXamarinAuth();
 

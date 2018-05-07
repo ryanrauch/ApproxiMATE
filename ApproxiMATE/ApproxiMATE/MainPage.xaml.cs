@@ -6,6 +6,8 @@ using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using ApproxiMATE.Helpers;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace ApproxiMATE
 {
@@ -236,7 +238,15 @@ namespace ApproxiMATE
 
         public async void OnContactsButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ContactsPage());
+            var permission = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Contacts);
+            if (permission.Equals(PermissionStatus.Granted))
+            {
+                await Navigation.PushAsync(new ContactsPage());
+            }
+            else
+            {
+                await Navigation.PushAsync(new IssuePage("Please provide permission to view contacts."));
+            }
         }
     }
 }

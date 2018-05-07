@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApproxiMATE.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,10 @@ namespace ApproxiMATE
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class IssuePage : ContentPage
 	{
-		public IssuePage ()
-		{
-			InitializeComponent ();
-		}
+        public IssuePage(String issue)
+        {
+            InitializeComponent();
+            BindingContext = new IssueViewModel(/*Navigation,*/ issue);
+        }
 	}
 }

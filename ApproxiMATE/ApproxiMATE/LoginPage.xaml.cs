@@ -53,7 +53,8 @@ namespace ApproxiMATE
                 //TODO: create error page
                 //re-direct to different page.
                 //for now do nothing
-                await DisplayAlert("Location Permissions", "Please enable location services.", "OK");
+                //await DisplayAlert("Location Permissions", "Please enable location services.", "OK");
+                await Navigation.PushAsync(new IssuePage("Please enable location services."));
             }
 
             string un = App.AccountService.UserName;
@@ -122,7 +123,7 @@ namespace ApproxiMATE
                 App.AppOptions = options.OrderByDescending(x => x.OptionsDate).FirstOrDefault();
                 if(!CheckVersionNumber())
                 {
-                    Navigation.InsertPageBefore(new IssuePage(), this);
+                    Navigation.InsertPageBefore(new IssuePage("Please update the application to continue use"), this);
                     await Navigation.PopAsync();
                     return;
                 }
