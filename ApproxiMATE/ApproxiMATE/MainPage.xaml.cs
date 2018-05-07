@@ -25,8 +25,8 @@ namespace ApproxiMATE
             base.OnAppearing();
             var position = await Utilities.GetCurrentGeolocationGooglePositionAsync();
 #if DEBUG
-            position = new Position(30.3993258177538, -97.723581124856);
-            //position = new Position(0.00, 0.00);
+            //position = new Position(30.3993258177538, -97.723581124856);
+            position = new Position(0.00, 0.00);
 #endif
             // pin for exact user location
             //MapMain.Pins.Add(new Pin
@@ -72,7 +72,7 @@ namespace ApproxiMATE
             
             double zoomWidth = metersPerPixel / 10; //1000meters divided by 100px width
             LabelScale.Text = zoomWidth.ToString("F2") + "km " + e.Position.Zoom.ToString("F2");
-            MapMain.Polygons.Clear();
+            //MapMain.Polygons.Clear();
             DrawHexagons(App.Hexagonal.CenterLocation, CalculateLayerFromCameraPositionZoom(e.Position.Zoom));
             
             return;
@@ -119,13 +119,16 @@ namespace ApproxiMATE
                 for (int row = -6; row < 7; ++row)
                 {
                     Polygon hexPoly = App.Hexagonal.HexagonalPolygon(center, col, row);
-                    hexPoly.FillColor = App.HeatGradient.SteppedColor(0);
+                    if (hexPoly.Tag.ToString().Equals("T"))
+                        hexPoly.FillColor = App.HeatGradient.SteppedColor(step);
+                    else
+                        hexPoly.FillColor = App.HeatGradient.SteppedColor(0);
                     if (step.Equals(App.HeatGradient.Min))
                         hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step + 1);
                     else
                         hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step);
                     //step = step + 1 % App.HeatGradient.Max;
-                    hexPoly.Tag = layer.ToString() + Constants.BoundingBoxDelim + col.ToString() + Constants.BoundingBoxDelim + row.ToString();
+                    //hexPoly.Tag = layer.ToString() + Constants.BoundingBoxDelim + col.ToString() + Constants.BoundingBoxDelim + row.ToString();
                     hexPoly.IsClickable = true;
                     hexPoly.Clicked += HexPoly_Clicked;
                     MapMain.Polygons.Add(hexPoly);

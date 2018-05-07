@@ -25,7 +25,9 @@ namespace ApproxiMATE.Helpers
         private double _longitude { get; set; }
 
         Position IHexagonal.CenterLocation => new Position(Math.Floor(_latitude / ZEROHEIGHT) * ZEROHEIGHT,
-                                                           Math.Floor(_longitude * 100) / 100);
+                                                           Math.Floor(_longitude / ZEROWIDTH) * ZEROWIDTH);
+
+        //Position IHexagonal.CenterLocationLayer => new Position(_latitude, _longitude);
 
         Position IHexagonal.ExactLocation => new Position(_latitude, _longitude);
 
@@ -43,7 +45,53 @@ namespace ApproxiMATE.Helpers
             poly.Positions.Add(new Position(lat_bottom, lon_right));
             poly.Positions.Add(new Position(lat_bottom, lon_left));
             poly.Positions.Add(new Position(center.Latitude, center.Longitude - _flatRadius));
+            poly.Tag = IdentifyHexagonFromCenter(center);
             return poly;
+        }
+
+        public Position AdjustCenter(Position center)
+        {
+            //Position adjusted = new Position(Math.Floor(_latitude / ZEROHEIGHT),
+            //                                 Math.Floor(_longitude / ZEROWIDTH) * ZEROWIDTH);
+            //double lat = adjusted.Latitude % 1.5;
+            //double lon = adjusted.Longitude % 3;
+            //if(adjusted.Longitude < 0)
+            //{
+            //    if(lon < -1.5)
+            //    {
+
+            //    }
+            //}
+            //if(lat == 0)
+            //{
+            //    // actual center
+                
+            //}
+            //else if(adjusted.Latitude % 1.5 == 1.0)
+            //if (adjusted.Longitude % 3 == 0)
+            //{
+            //    return adjusted;
+            //}
+
+
+            return adjusted;
+        }
+
+        public String IdentifyHexagonFromCenter(Position center)
+        {
+            double lat = center.Latitude / _flatHeight;
+            double lon = center.Longitude / _flatWidth;
+            String tag = String.Format("L:{0}{1}LAT:{2}{1}LON:{3} Center:{4}",
+                                       _layer,
+                                       Constants.BoundingBoxDelim,
+                                       lat,
+                                       lon,
+                                       (lat % 1.5 == 0) && (lon % 3 == 0));
+            
+            if ((lat % 1.5 == 0) && (lon % 3 == 0))
+                return "T";
+            return "F";
+            return tag;
         }
 
         public Polygon HexagonalPolygon(Position center, int column, int row)
