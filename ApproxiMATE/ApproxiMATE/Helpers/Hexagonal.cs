@@ -80,5 +80,15 @@ namespace ApproxiMATE.Helpers
             return HexagonalPolygon(new Position(center.Latitude + (row * HEIGHT) - HALF_HEIGHT,
                                                  center.Longitude + column * WIDTH));
         }
+
+        public void SetCenter(Position center)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetLayer(int layer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -8,5 +8,7 @@ namespace ApproxiMATE.Helpers
         Position ExactLocation { get; }
         Polygon HexagonalPolygon(Position center);
         Polygon HexagonalPolygon(Position center, int column, int row);
+        void SetCenter(Position center);
+        void SetLayer(int layer);
     }
 }

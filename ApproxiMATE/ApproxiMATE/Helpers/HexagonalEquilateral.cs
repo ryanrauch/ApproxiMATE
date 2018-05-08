@@ -51,6 +51,16 @@ namespace ApproxiMATE.Helpers
                                                  center.Longitude + column * WIDTH));
         }
 
+        public void SetCenter(Position center)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetLayer(int layer)
+        {
+            throw new NotImplementedException();
+        }
+
         public HexagonalEquilateral(double latitude, double longitude)
         {
             _latitude = latitude;

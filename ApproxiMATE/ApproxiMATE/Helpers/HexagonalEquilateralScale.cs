@@ -24,8 +24,6 @@ namespace ApproxiMATE.Helpers
         private double _latitude { get; set; }
         private double _longitude { get; set; }
 
-        //Position IHexagonal.CenterLocation => new Position(Math.Floor(_latitude / ZEROHEIGHT) * ZEROHEIGHT,
-        //                                                   Math.Floor(_longitude / ZEROWIDTH) * ZEROWIDTH);
         private Position? _centerLocation { get; set; }
         Position IHexagonal.CenterLocation
         {
@@ -35,9 +33,14 @@ namespace ApproxiMATE.Helpers
                 {
                     double lon = Math.Floor(_longitude / _flatWidth);
                     double lat = Math.Floor(_latitude / _flatHeight);
-                    //if (lon % 2 != 0)
-                    //    lat -= 1;
-                    _centerLocation = new Position(lat * _flatHeight, lon * _flatWidth);
+                    if (lon % 2 == 0)
+                    {
+                        _centerLocation = new Position(lat * _flatHeight, lon * _flatWidth);
+                    }
+                    else
+                    {
+                        _centerLocation = new Position(lat * _flatHeight - _flatHalfHeight, lon * _flatWidth);
+                    }
                 }
                 return _centerLocation.Value;
             }
@@ -73,7 +76,7 @@ namespace ApproxiMATE.Helpers
                 lat = (position.Latitude + height / 2) / height;
             else
                 lat = position.Latitude / height;
-            String tag = String.Format("l:{0} lat:{1} lon:{2}",
+            String tag = String.Format("layer:{0} lat:{1} lon:{2}",
                                        layer,
                                        lat,
                                        lon);
@@ -95,6 +98,12 @@ namespace ApproxiMATE.Helpers
             _latitude = latitude;
             _longitude = longitude;
             _layer = LAYERS[0];
+        }
+        public void SetCenter(Position center)
+        {
+            _latitude = center.Latitude;
+            _longitude = center.Longitude;
+            _centerLocation = null;
         }
         public void SetLayer(int layer)
         {
