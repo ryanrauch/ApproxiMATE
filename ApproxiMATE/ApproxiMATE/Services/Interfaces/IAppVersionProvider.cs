@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ApproxiMATE
+namespace ApproxiMATE.Services.Interfaces
 {
     public interface IAppVersionProvider
     {

@@ -13,7 +13,6 @@ namespace ApproxiMATE.Helpers
         private readonly double ZEROHEIGHT = Math.Sqrt(3) * ZERORADIUS;
         private readonly double ZEROHALFHEIGHT = Math.Sqrt(3) * ZEROHALFRADIUS;
 
-        private readonly List<int> LAYERS = new List<int> { 1, 3, 9, 27, 81, 243, 729, 2187 };
         private int _layer { get; set; }
         private double _flatRadius => _layer * ZERORADIUS;
         private double _flatHalfRadius => _flatRadius / 2;
@@ -23,6 +22,8 @@ namespace ApproxiMATE.Helpers
 
         private double _latitude { get; set; }
         private double _longitude { get; set; }
+
+        private bool _initialized { get; set; }
 
         private Position? _centerLocation { get; set; }
         Position IHexagonal.CenterLocation
@@ -48,8 +49,11 @@ namespace ApproxiMATE.Helpers
 
         Position IHexagonal.ExactLocation => new Position(_latitude, _longitude);
 
+        public IList<int> Layers => new List<int> { 1, 3, 9, 27, 81, 243, 729, 2187 };
+
         public Polygon HexagonalPolygon(Position center)
         {
+            CheckInitialization();
             double lat_top = center.Latitude + _flatHalfHeight;
             double lat_bottom = center.Latitude - _flatHalfHeight;
             double lon_left = center.Longitude - _flatHalfRadius;
@@ -76,7 +80,8 @@ namespace ApproxiMATE.Helpers
                 lat = (position.Latitude + height / 2) / height;
             else
                 lat = position.Latitude / height;
-            String tag = String.Format("layer:{0} lat:{1} lon:{2}",
+            String tag = String.Format("{1}{0}{2}{0}{3}",
+                                       Constants.BoundingBoxDelim,
                                        layer,
                                        lat,
                                        lon);
@@ -93,26 +98,41 @@ namespace ApproxiMATE.Helpers
                                                     center.Longitude + column * _flatWidth));
         }
 
-        public HexagonalEquilateralScale(double latitude, double longitude)
+        public HexagonalEquilateralScale()
         {
-            _latitude = latitude;
-            _longitude = longitude;
-            _layer = LAYERS[0];
+            _latitude = 0;
+            _longitude = 0;
+            _layer = Layers[0];
         }
+
         public void SetCenter(Position center)
         {
             _latitude = center.Latitude;
             _longitude = center.Longitude;
             _centerLocation = null;
         }
+
         public void SetLayer(int layer)
         {
-            if(!LAYERS.Contains(layer))
+            if(!Layers.Contains(layer))
             {
-                throw new ArgumentOutOfRangeException("LAYERS");
+                throw new ArgumentOutOfRangeException(layer.ToString() + " was not contained within Layers");
             }
             _centerLocation = null;
             _layer = layer;
+        }
+
+        public void CheckInitialization()
+        {
+            if (!_initialized)
+                throw new InvalidOperationException("HexagonalEquilateralScale has not been initialized properly.");
+        }
+
+        public void Initialize(double latitude, double longitude, int layer)
+        {
+            SetCenter(new Position(latitude, longitude));
+            SetLayer(layer);
+            _initialized = true;
         }
     }
 }

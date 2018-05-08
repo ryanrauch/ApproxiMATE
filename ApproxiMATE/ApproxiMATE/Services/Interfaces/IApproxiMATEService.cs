@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ApproxiMATE.Services
+namespace ApproxiMATE.Services.Interfaces
 {
     public interface IApproxiMATEService
     {

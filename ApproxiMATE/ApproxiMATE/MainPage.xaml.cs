@@ -26,8 +26,8 @@ namespace ApproxiMATE
             base.OnAppearing();
             var position = await Utilities.GetCurrentGeolocationGooglePositionAsync();
 #if DEBUG
-            //position = new Position(30.3993258177538, -97.723581124856);
-            position = new Position(0.00, 0.00);
+            position = new Position(30.3993258177538, -97.723581124856);
+            //position = new Position(0.00, 0.00);
 #endif
             // pin for exact user location
             //MapMain.Pins.Add(new Pin
@@ -44,7 +44,8 @@ namespace ApproxiMATE
                 MapMain.Pins.Add(GetCurrentLocationPin(position));
 
                 //App.Hexagonal = new HexagonalEquilateral(position.Latitude, position.Longitude);
-                App.Hexagonal = new HexagonalEquilateralScale(position.Latitude, position.Longitude);
+                //App.Hexagonal = new HexagonalEquilateralScale(position.Latitude, position.Longitude);
+                App.Hexagonal.Initialize(position.Latitude, position.Longitude, 1);
                 if (App.HeatGradient == null)
                     App.HeatGradient = new HeatGradient();
                 //int step = 0;
@@ -224,7 +225,7 @@ namespace ApproxiMATE
         public async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
             App.IsUserLoggedIn = false;
-            App.AccountService.DeleteCredentials();
+            App.CredentialService.DeleteCredentials();
             Navigation.InsertPageBefore(new LoginPage(), this);
             await Navigation.PopAsync();
         }

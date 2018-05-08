@@ -24,6 +24,8 @@ namespace ApproxiMATE.Helpers
 
         Position IHexagonal.ExactLocation => new Position(_latitude, _longitude);
 
+        public IList<int> Layers => throw new NotImplementedException();
+
         public Polygon HexagonalPolygon(Position center)
         {
             String debugInfo = String.Format("Lat: {0}\nLon: {1}\n", center.Latitude, center.Longitude);
@@ -57,6 +59,11 @@ namespace ApproxiMATE.Helpers
         }
 
         public void SetLayer(int layer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Initialize(double latitude, double longitude, int layer)
         {
             throw new NotImplementedException();
         }

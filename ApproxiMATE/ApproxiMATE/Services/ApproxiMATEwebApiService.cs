@@ -1,4 +1,5 @@
 ﻿using ApproxiMATE.Models;
+using ApproxiMATE.Services.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -100,10 +101,10 @@ namespace ApproxiMATE.Services
             {
                 { "username", userName },
                 { "password", password },
-                { "isPersistent", persistent.ToString() }
+                { "persistent", persistent.ToString() }
             };
             var content = new FormUrlEncodedContent(parameters);
-            var response = await client.PostAsync(Constants.ApproxiMATEwebApiBase + "token", content).ConfigureAwait(false);
+            var response = await client.PostAsync(Constants.ApproxiMATEwebApiBase + "api/token", content).ConfigureAwait(false);
             if(response.IsSuccessStatusCode)
             {
                 _jwtToken = await response.Content.ReadAsStringAsync();

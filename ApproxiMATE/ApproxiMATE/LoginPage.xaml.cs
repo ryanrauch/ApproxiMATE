@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApproxiMATE.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ namespace ApproxiMATE
             {
                 if (SwitchSavePW.IsToggled)
                 {
-                    App.AccountService.SaveCredentials(un, pw);
+                    App.CredentialService.SaveCredentials(un, pw);
                 }
                 App.IsUserLoggedIn = true;
                 //System.Threading.Thread.Sleep(3000);
@@ -39,7 +40,7 @@ namespace ApproxiMATE
             {
                 messageLabel.Text = "Login failed";
                 passwordEntry.Text = string.Empty;
-                App.AccountService.DeleteCredentials();
+                App.CredentialService.DeleteCredentials();
             }
             return false;
         }
@@ -57,10 +58,10 @@ namespace ApproxiMATE
                 await Navigation.PushAsync(new IssuePage("Please enable location services."));
             }
 
-            string un = App.AccountService.UserName;
+            string un = App.CredentialService.UserName;
             string pw = null;
             if (un != null)
-                pw = App.AccountService.Password;
+                pw = App.CredentialService.Password;
             if (un != null && pw != null)
             {
                 var result = await LoginProcess(un, pw);

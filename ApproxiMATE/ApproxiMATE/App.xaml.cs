@@ -1,6 +1,7 @@
 ﻿using ApproxiMATE.Helpers;
 using ApproxiMATE.Models;
 using ApproxiMATE.Services;
+using ApproxiMATE.Services.Interfaces;
 using Plugin.Geolocator;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
@@ -16,23 +17,27 @@ namespace ApproxiMATE
 {
     public partial class App : Application
     {
-        //public static IContainer Container { get; set; } //autofac
         public static bool IsUserLoggedIn { get; set; }
         public static ApplicationUser AppUser { get; set; }
         public static ApplicationOption AppOptions { get; set; }
 	    public static double ScreenHeight { get; set; }
 	    public static double ScreenWidth { get; set; }
         public static ApproxiMATEwebApiService approxiMATEService { get; set; }      //TODO: convert back to interface
-        public static AccountServiceXamarinAuth AccountService { get; set; }    //TODO: convert to interface
+        public static ICredentialService CredentialService { get; set; }    //TODO: convert to interface
         public static IHexagonal Hexagonal { get; set; }
         public static IHeatGradient HeatGradient { get; set; }
 
+        public static IRequestService RequestService { get; set; }
+
+        public test
 		public App ()
 		{
 			InitializeComponent();
             //InitializeAutofac();
+            RequestService = new JwtRequestService();
+            Hexagonal = new HexagonalEquilateralScale();
             approxiMATEService = new ApproxiMATEwebApiService();
-            AccountService = new AccountServiceXamarinAuth();
+            CredentialService = new AccountServiceXamarinAuth();
 
             //MainPage = new NavigationPage(new StartupPage());
             if (!IsUserLoggedIn)

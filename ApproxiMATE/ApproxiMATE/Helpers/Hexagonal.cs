@@ -22,6 +22,8 @@ namespace ApproxiMATE.Helpers
                                                        Math.Floor(_longitude / EVEN_LONGITUDE_REPEAT) * EVEN_LONGITUDE_REPEAT);
         public Position ExactLocation => new Position(_latitude, _longitude);
 
+        public IList<int> Layers => throw new NotImplementedException();
+
         public Hexagonal(double latitude, double longitude)
         {
             _latitude = latitude;
@@ -87,6 +89,11 @@ namespace ApproxiMATE.Helpers
         }
 
         public void SetLayer(int layer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Initialize(double latitude, double longitude, int layer)
         {
             throw new NotImplementedException();
         }

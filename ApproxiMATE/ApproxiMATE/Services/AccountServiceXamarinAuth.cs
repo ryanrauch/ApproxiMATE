@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ApproxiMATE.Services.Interfaces;
+using System;
 using System.Linq;
-using System.Text;
 using Xamarin.Auth;
 
 namespace ApproxiMATE.Services
 {
-    public class AccountServiceXamarinAuth
+    public class AccountServiceXamarinAuth : ICredentialService
     {
         public string UserName
         {
