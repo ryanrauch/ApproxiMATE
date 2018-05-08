@@ -14,6 +14,7 @@ namespace ApproxiMATE
     public partial class MainPage : ContentPage
 	{
         private static readonly Distance INITIAL_DISTANCE = Distance.FromKilometers(6.0d);
+        public int CurrentLayer { get; set; }
 		public MainPage()
 		{
 			InitializeComponent();
@@ -69,17 +70,23 @@ namespace ApproxiMATE
         {
             double metersPerPixel = 156543.03392 * Math.Cos(e.Position.Target.Latitude * Math.PI / 180) / Math.Pow(2, e.Position.Zoom);
             //double zoomWidth = App.ScreenWidth * metersPerPixel / 1000;
-            
             double zoomWidth = metersPerPixel / 10; //1000meters divided by 100px width
             LabelScale.Text = zoomWidth.ToString("F2") + "km " + e.Position.Zoom.ToString("F2");
             //MapMain.Polygons.Clear();
-            DrawHexagons(App.Hexagonal.CenterLocation, CalculateLayerFromCameraPositionZoom(e.Position.Zoom));
-            
-            return;
-            for (int i = 0; i < 8; ++i)
+            int newLayer = CalculateLayerFromCameraPositionZoom(e.Position.Zoom);
+            if(!newLayer.Equals(CurrentLayer))
             {
-                DrawHexagons(App.Hexagonal.CenterLocation, (int)Math.Pow(3, i));
+                CurrentLayer = newLayer;
+                if (App.Hexagonal is HexagonalEquilateralScale)
+                {
+                    ((HexagonalEquilateralScale)App.Hexagonal).SetLayer(CurrentLayer);
+                }
             }
+            DrawHexagons(App.Hexagonal.CenterLocation, CurrentLayer);
+            //for (int i = 0; i < 8; ++i)
+            //{
+            //    DrawHexagons(App.Hexagonal.CenterLocation, (int)Math.Pow(3, i));
+            //}
             //DrawHexagons(App.Hexagonal.CenterLocation, 1);
             ////DrawHexagons(App.Hexagonal.CenterLocation, 2);
             //DrawHexagons(App.Hexagonal.CenterLocation, 3);
@@ -110,18 +117,18 @@ namespace ApproxiMATE
             int step = (layer * 3) % 15;
             // possibly detach clicked event before clearing?
             //MapMain.Polygons.Clear();
-            if (App.Hexagonal is HexagonalEquilateralScale)
-            {
-                ((HexagonalEquilateralScale)App.Hexagonal).SetLayer(layer);
-            }
+            //if (App.Hexagonal is HexagonalEquilateralScale)
+            //{
+            //    ((HexagonalEquilateralScale)App.Hexagonal).SetLayer(layer);
+            //}
             for (int col = -6; col < 7; ++col)
             {
                 for (int row = -6; row < 7; ++row)
                 {
                     Polygon hexPoly = App.Hexagonal.HexagonalPolygon(center, col, row);
-                    if (hexPoly.Tag.ToString().Equals("T"))
-                        hexPoly.FillColor = App.HeatGradient.SteppedColor(step);
-                    else
+                    //if (hexPoly.Tag.ToString().Equals("T"))
+                    //    hexPoly.FillColor = App.HeatGradient.SteppedColor(step);
+                    //else
                         hexPoly.FillColor = App.HeatGradient.SteppedColor(0);
                     if (step.Equals(App.HeatGradient.Min))
                         hexPoly.StrokeColor = App.HeatGradient.SteppedColor(step + 1);

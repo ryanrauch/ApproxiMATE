@@ -9,7 +9,7 @@ namespace ApproxiMATE.Helpers
     {
         private const double ZERORADIUS = 0.005; // 0.005 will create a hexagon with width of 1km (roughly)
         private const double ZEROHALFRADIUS = 0.0025;
-        private const double ZEROWIDTH = 0.0075; // RADIUS + HALFRADIUS
+        private readonly double ZEROWIDTH = ZERORADIUS + ZEROHALFRADIUS;
         private readonly double ZEROHEIGHT = Math.Sqrt(3) * ZERORADIUS;
         private readonly double ZEROHALFHEIGHT = Math.Sqrt(3) * ZEROHALFRADIUS;
 
@@ -20,14 +20,28 @@ namespace ApproxiMATE.Helpers
         private double _flatWidth => _layer * ZEROWIDTH;
         private double _flatHeight => _layer * ZEROHEIGHT;
         private double _flatHalfHeight => _flatHeight / 2;
- 
+
         private double _latitude { get; set; }
         private double _longitude { get; set; }
 
-        Position IHexagonal.CenterLocation => new Position(Math.Floor(_latitude / ZEROHEIGHT) * ZEROHEIGHT,
-                                                           Math.Floor(_longitude / ZEROWIDTH) * ZEROWIDTH);
-
-        //Position IHexagonal.CenterLocationLayer => new Position(_latitude, _longitude);
+        //Position IHexagonal.CenterLocation => new Position(Math.Floor(_latitude / ZEROHEIGHT) * ZEROHEIGHT,
+        //                                                   Math.Floor(_longitude / ZEROWIDTH) * ZEROWIDTH);
+        private Position? _centerLocation { get; set; }
+        Position IHexagonal.CenterLocation
+        {
+            get
+            {
+                if (!_centerLocation.HasValue)
+                {
+                    double lon = Math.Floor(_longitude / _flatWidth);
+                    double lat = Math.Floor(_latitude / _flatHeight);
+                    //if (lon % 2 != 0)
+                    //    lat -= 1;
+                    _centerLocation = new Position(lat * _flatHeight, lon * _flatWidth);
+                }
+                return _centerLocation.Value;
+            }
+        }
 
         Position IHexagonal.ExactLocation => new Position(_latitude, _longitude);
 
@@ -45,52 +59,24 @@ namespace ApproxiMATE.Helpers
             poly.Positions.Add(new Position(lat_bottom, lon_right));
             poly.Positions.Add(new Position(lat_bottom, lon_left));
             poly.Positions.Add(new Position(center.Latitude, center.Longitude - _flatRadius));
-            poly.Tag = IdentifyHexagonFromCenter(center);
+            poly.Tag = CreateTagFromCoordinates(center, _layer);
             return poly;
         }
 
-        public Position AdjustCenter(Position center)
+        public String CreateTagFromCoordinates(Position position, int layer)
         {
-            //Position adjusted = new Position(Math.Floor(_latitude / ZEROHEIGHT),
-            //                                 Math.Floor(_longitude / ZEROWIDTH) * ZEROWIDTH);
-            //double lat = adjusted.Latitude % 1.5;
-            //double lon = adjusted.Longitude % 3;
-            //if(adjusted.Longitude < 0)
-            //{
-            //    if(lon < -1.5)
-            //    {
-
-            //    }
-            //}
-            //if(lat == 0)
-            //{
-            //    // actual center
-                
-            //}
-            //else if(adjusted.Latitude % 1.5 == 1.0)
-            //if (adjusted.Longitude % 3 == 0)
-            //{
-            //    return adjusted;
-            //}
-
-
-            return adjusted;
-        }
-
-        public String IdentifyHexagonFromCenter(Position center)
-        {
-            double lat = center.Latitude / _flatHeight;
-            double lon = center.Longitude / _flatWidth;
-            String tag = String.Format("L:{0}{1}LAT:{2}{1}LON:{3} Center:{4}",
-                                       _layer,
-                                       Constants.BoundingBoxDelim,
+            double width = ZEROWIDTH * layer;
+            double height = ZEROHEIGHT * layer;
+            double lat = 0;
+            double lon = position.Longitude / width;
+            if (lon % 2 != 0)
+                lat = (position.Latitude + height / 2) / height;
+            else
+                lat = position.Latitude / height;
+            String tag = String.Format("l:{0} lat:{1} lon:{2}",
+                                       layer,
                                        lat,
-                                       lon,
-                                       (lat % 1.5 == 0) && (lon % 3 == 0));
-            
-            if ((lat % 1.5 == 0) && (lon % 3 == 0))
-                return "T";
-            return "F";
+                                       lon);
             return tag;
         }
 
@@ -116,6 +102,7 @@ namespace ApproxiMATE.Helpers
             {
                 throw new ArgumentOutOfRangeException("LAYERS");
             }
+            _centerLocation = null;
             _layer = layer;
         }
     }
