@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ApproxiMATE.iOS;
 using ApproxiMATE.Services;
+using ApproxiMATE.Services.Interfaces;
 using Foundation;
 using UIKit;
 using Xamarin.Forms;

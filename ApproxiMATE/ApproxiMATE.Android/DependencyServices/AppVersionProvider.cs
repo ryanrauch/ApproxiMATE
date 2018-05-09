@@ -9,6 +9,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using ApproxiMATE.Droid;
+using ApproxiMATE.Services.Interfaces;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(AppVersionProvider))]

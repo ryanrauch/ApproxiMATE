@@ -29,7 +29,6 @@ namespace ApproxiMATE
 
         public static IRequestService RequestService { get; set; }
 
-        public test
 		public App ()
 		{
 			InitializeComponent();

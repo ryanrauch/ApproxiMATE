@@ -38,7 +38,7 @@ namespace ApproxiMATE.Services
             _endPoint = Constants.ApproxiMATEwebApiBase;
         }
 
-        public async Task<Boolean> PostAuthenticationRequest(string username, string password, bool persistent)
+        public async Task<Boolean> PostAuthenticationRequestAsync(string username, string password, bool persistent)
         {
             var parameters = new Dictionary<string, string>
             {
