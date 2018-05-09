@@ -67,7 +67,7 @@ namespace ApproxiMATE.Models
         public double Longitude { get; set; }
     }
 
-    public class FriendRequest
+    public class FriendRequestOld
     {
         public Guid InitiatorId { get; set; }
         public Guid TargetId { get; set; }

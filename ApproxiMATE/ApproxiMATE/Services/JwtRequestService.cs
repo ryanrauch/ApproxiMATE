@@ -76,6 +76,10 @@ namespace ApproxiMATE.Services
         public async Task<TResult> GetAsync<TResult>(string uri)
         {
             CheckInitialization();
+            if (!String.IsNullOrEmpty(_endPoint))
+            {
+                uri = _endPoint + uri;
+            }
             HttpResponseMessage response = await _client.GetAsync(uri);
             await HandleResponse(response);
             string serialized = await response.Content.ReadAsStringAsync();
@@ -91,6 +95,10 @@ namespace ApproxiMATE.Services
         public async Task<TResult> PostAsync<TRequest, TResult>(string uri, TRequest data)
         {
             CheckInitialization();
+            if (!String.IsNullOrEmpty(_endPoint))
+            {
+                uri = _endPoint + uri;
+            }
             string serialized = await Task.Run(() => JsonConvert.SerializeObject(data, _serializerSettings));
             HttpResponseMessage response = await _client.PostAsync(uri, new StringContent(serialized, Encoding.UTF8, "application/json"));
             await HandleResponse(response);
@@ -106,6 +114,10 @@ namespace ApproxiMATE.Services
         public async Task<TResult> PutAsync<TRequest, TResult>(string uri, TRequest data)
         {
             CheckInitialization();
+            if (!String.IsNullOrEmpty(_endPoint))
+            {
+                uri = _endPoint + uri;
+            }
             string serialized = await Task.Run(() => JsonConvert.SerializeObject(data, _serializerSettings));
             HttpResponseMessage response = await _client.PutAsync(uri, new StringContent(serialized, Encoding.UTF8, "application/json"));
             await HandleResponse(response);

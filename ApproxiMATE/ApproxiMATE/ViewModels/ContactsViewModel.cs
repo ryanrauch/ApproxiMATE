@@ -156,7 +156,7 @@ namespace ApproxiMATE
 
         public async Task<Boolean> FriendRequestRemove(PhoneContact contact)
         {
-            var data = new FriendRequest()
+            var data = new FriendRequestOld()
             {
                 InitiatorId = App.AppUser.id,
                 TargetId = Guid.Parse(contact.ApproxUserId),
@@ -169,7 +169,7 @@ namespace ApproxiMATE
 
         public async Task<Boolean> FriendRequestCreate(PhoneContact contact)
         {
-            var data = new FriendRequest()
+            var data = new FriendRequestOld()
             {
                 InitiatorId = App.AppUser.id,
                 TargetId = Guid.Parse(contact.ApproxUserId),

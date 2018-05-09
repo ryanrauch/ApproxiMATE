@@ -39,12 +39,12 @@ namespace ApproxiMATE.Services
             client.DefaultRequestHeaders.Clear();
         }
 
-        public async Task<List<FriendRequest>> GetFriendRequestsAsync(Guid userId)
+        public async Task<List<FriendRequestOld>> GetFriendRequestsAsync(Guid userId)
         {
-            var items = new List<FriendRequest>();
+            var items = new List<FriendRequestOld>();
             AddJwtHeader();
             var response = await client.GetStringAsync(Constants.ApproxiMATEwebApiBase + "api/FriendRequests/" + userId.ToString());
-            items = JsonConvert.DeserializeObject<List<FriendRequest>>(response);
+            items = JsonConvert.DeserializeObject<List<FriendRequestOld>>(response);
             return items;
         }
 
@@ -113,7 +113,7 @@ namespace ApproxiMATE.Services
             }
             return response;
         }
-        public async Task<Boolean> DeleteFriendRequestAsync(FriendRequest data)
+        public async Task<Boolean> DeleteFriendRequestAsync(FriendRequestOld data)
         {
             return await PutFriendRequestAsync(data);
         }
@@ -134,7 +134,7 @@ namespace ApproxiMATE.Services
             return box;
         }
 
-        public async Task<Boolean> PostFriendRequestAsync(FriendRequest data)
+        public async Task<Boolean> PostFriendRequestAsync(FriendRequestOld data)
         {
             if (App.AppUser != null && data.InitiatorId != App.AppUser.id)
                 return false;
@@ -150,7 +150,7 @@ namespace ApproxiMATE.Services
         }
 
         //actually used to remove/delete a friendrequest
-        public async Task<Boolean> PutFriendRequestAsync(FriendRequest data)
+        public async Task<Boolean> PutFriendRequestAsync(FriendRequestOld data)
         {
             if (App.AppUser != null && data.InitiatorId != App.AppUser.id)
                 return false;
