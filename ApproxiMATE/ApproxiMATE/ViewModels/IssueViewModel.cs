@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApproxiMATE.ViewModels.Base;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,7 +8,7 @@ using Xamarin.Forms;
 
 namespace ApproxiMATE.ViewModels
 {
-    public class IssueViewModel : BaseViewModel
+    public class IssueViewModel : ViewModelBase
     {
         private String _issue { get; set; }
         public String Issue

@@ -2,6 +2,8 @@
 using ApproxiMATE.Models;
 using ApproxiMATE.Services;
 using ApproxiMATE.Services.Interfaces;
+using ApproxiMATE.ViewModels.Base;
+using ApproxiMATE.Views;
 using Plugin.Geolocator;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
@@ -32,12 +34,14 @@ namespace ApproxiMATE
 		public App ()
 		{
 			InitializeComponent();
-            //InitializeAutofac();
-            RequestService = new JwtRequestService();
-            Hexagonal = new HexagonalEquilateralScale();
-            approxiMATEService = new ApproxiMATEwebApiService();
-            CredentialService = new AccountServiceXamarinAuth();
 
+
+            //var navigationService = ViewModelLocator.Resolve<INavigationService>();
+            //navigationService.InitializeAsync().ConfigureAwait(true);
+
+            InitApp();
+            MainPage = new NavigationPage(new MainMapView());
+            return;
             //MainPage = new NavigationPage(new StartupPage());
             if (!IsUserLoggedIn)
                 MainPage = new NavigationPage(new LoginPage());
@@ -49,36 +53,22 @@ namespace ApproxiMATE
             //MainPage = new ApproxiMATE.MapPage();
         }
 
-		protected override void OnStart ()
+        private void InitApp()
+        {
+            RequestService = new JwtRequestService();
+            approxiMATEService = new ApproxiMATEwebApiService();
+            CredentialService = new AccountServiceXamarinAuth();
+            //Hexagonal = new HexagonalEquilateralScale();
+            //Hexagonal = ViewModelLocator.Resolve<IHexagonal>();
+        }
+
+        protected override async void OnStart ()
 		{
             // Handle when your app starts
-            //var position = await LocationServices.GetGeolocation();
-            //Device.BeginInvokeOnMainThread(async () =>
-            //{
-            /*
+            base.OnStart();
+        }
 
-            await RequestLocationPermission();
-            var position = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromSeconds(10));
-            if (MainPage is BindableMapPage)
-            {
-                ((BindableMapPage)MainPage).MyPosition = new Xamarin.Forms.Maps.Position(position.Latitude, position.Longitude);
-                ((BindableMapPage)MainPage).PinCollection.Add(
-                    new Xamarin.Forms.Maps.Pin()
-                    {
-                        Position = new Xamarin.Forms.Maps.Position(position.Latitude, position.Longitude),
-                        Type = Xamarin.Forms.Maps.PinType.Generic,
-                        Label = "Current Loc"
-                    });
-            }
-
-            */
-            //});
-            //ApproxiMATE.MapPage map = new MapPage();
-            //map.SetDisplayRegion(position, Xamarin.Forms.Maps.Distance.FromMiles(0.1));
-            //MainPage = map;
-		}
-
-		protected override void OnSleep ()
+        protected override void OnSleep ()
 		{
 			// Handle when your app sleeps
 		}

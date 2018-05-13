@@ -1,6 +1,7 @@
 ﻿using ApproxiMATE.Helpers;
 using ApproxiMATE.Models;
 using ApproxiMATE.ViewModels;
+using ApproxiMATE.ViewModels.Base;
 using Plugin.ContactService.Shared;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
@@ -15,7 +16,7 @@ using Xamarin.Forms;
 
 namespace ApproxiMATE
 {
-    public class ContactsViewModel : BaseViewModel
+    public class ContactsViewModel : ViewModelBase
     {
         public ContactsViewModel()
         {

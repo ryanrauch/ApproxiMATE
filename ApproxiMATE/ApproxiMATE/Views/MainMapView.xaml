@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ApproxiMATE.Controls"
+             xmlns:viewModelBase="clr-namespace:ApproxiMATE.ViewModels.Base"
+             x:Class="ApproxiMATE.Views.MainMapView">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" 
+                         Orientation="Horizontal">
+                <Label x:Name="LabelScale" />
+            </StackLayout>
+            <controls:CustomGoogleMap x:Name="CustomMap"
+                                  Grid.Row="1"
+                                  HorizontalOptions="FillAndExpand"
+                                  VerticalOptions="FillAndExpand" 
+                                  HasZoomEnabled="True"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
